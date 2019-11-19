@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,10 +28,13 @@ public class UserService {
     }
 
     public void addNewUser(User user) {
+        Date createdDate = new Date();
         Role userRole = roleService.getRoleByName("USER");
         user.getRoles().add(userRole);
         String password = user.getPassword();
         user.setPassword(passwordEncoder.encode(password));
+        user.setCreatedDate(createdDate);
+        user.setCreatedTime(createdDate);
         userRepository.save(user);
     }
 
