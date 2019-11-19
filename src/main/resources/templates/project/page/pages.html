@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Страницы ' + ${project.domain}">Страницы</title>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!--Top menu-->
+<div th:replace="fragments/menu.html :: top-menu"/>
+
+<!--Search-->
+<div style="background-color: lightgrey; height: 105px;" class="container-flurry mt-2">
+    <form action="/project/pages/search" method="post">
+
+        <input type="hidden" name="projectId" th:value="${project.id}">
+        <input th:value="${searchPhrase}" type="text" placeholder="Введите слова для поиска:" class="form-control" name="searchPhrases">
+        <span class="ml-2">Искать по: </span>
+
+        <input checked type="checkbox" value="title" class="ml-1 form-check-input" name="searchSpecification"
+               th:checked="${searchInTitle}">
+        <label class="ml-4 form-check-label">Title</label>
+
+        <input type="checkbox" checked value="description" class="ml-1 form-check-input" name="searchSpecification"
+               th:checked="${searchInDescription}">
+        <label class="ml-4 form-check-label">Description</label>
+
+        <input type="checkbox" checked th:value="url" class="ml-1 form-check-input" name="searchSpecification"
+               th:checked="${searchInUrl}">
+        <label class="ml-4 form-check-label">URL</label>
+
+        <input type="checkbox" checked value="content" class="ml-1 form-check-input" name="searchSpecification"
+               th:checked="${searchInContent}">
+        <label class="ml-4 form-check-label">Content</label>
+        <br/>
+        <input style="background-color: coral" type="submit" class="btn float-right mr-2" value="Поиск">
+    </form>
+</div>
+
+<div class="container-fluid bg-primary mt-2">
+    <h3 th:text="'Страницы - ' + ${project.domain}" class="text-center">Страницы</h3>
+</div>
+
+<table class="table table-dark table-hover">
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>ID</th>
+        <th>URL</th>
+        <th>TITLE</th>
+        <th>DESCRIPTION</th>
+        <th>CONTENT</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="page : ${pages}">
+        <td th:text="${indexes.get(page.id)}">1</td>
+        <td th:text="${page.id}">1</td>
+        <!--_blank - для открытия на новой странице-->
+        <td><a target="_blank" href="#" th:text="${page.url}" th:href="${page.url}"></a></td>
+        <!--<td th:text="${page.url}">vk.com</td>-->
+        <td th:text="${page.title}">youtube</td>
+        <td th:text="${page.description}">desc</td>
+        <td th:text="${content.get(page.id)}">content</td>
+    </tr>
+    </tbody>
+</table>
+
+<!--Pagination-->
+<div th:if="${pagesCount}" class="container">
+    <a th:if="${pageNumber>0}" th:href="'/project/pages?projectId=' + ${project.id} + '&pageNumber='+${pageNumber-1}"
+       href="#" class="btn btn-primary float-left mb-2">Предыдущая</a>
+    <a th:if="${pageNumber < pagesCount-1}"
+       th:href="'/project/pages?projectId=' + ${project.id} + '&pageNumber='+${pageNumber+1}" href="#"
+       class="btn btn-primary float-right mb-2">Следующая</a>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body class="bg-secondary">
+
+<div th:if="${error}" class="container bg-danger mb-2">
+    <h3 th:text="${error}">Ошибка</h3>
+</div>
+
+<div class="container">
+    <div class="card text-center">
+        <div class="container bg-info">
+            <h3>Регистрация</h3>
+        </div>
+
+
+        <form th:action="@{/register}" method="post">
+            <div class="mt-2">
+                <label>E-mail: <input type="email" class="form-control" placeholder="Введите e-mail" name="email"/>
+                </label>
+            </div>
+
+            <div>
+                <label>
+                  Password: <input class="form-control" type="password" placeholder="Введите пароль:" name="password"/>
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Name: <input class="form-control" type="text" placeholder="Введите ваше имя:" name="name"/>
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Last name: <input class="form-control" type="text" placeholder="Введите вашу фамилию:" name="last_name"/>
+                </label>
+            </div>
+
+            <div class="container mt-2">
+                <div class="row">
+                    <div class="col text-center">
+                        <input class="btn btn-primary mb-2" type="submit" value="OK"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

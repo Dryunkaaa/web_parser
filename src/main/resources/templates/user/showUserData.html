@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Смена данных</title>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!--Top menu-->
+<div th:replace="fragments/menu.html :: top-menu"></div>
+
+<div class="container-flurry bg-primary mt-2">
+    <h3 th:text="'Данные аккаунта - ' + ${domainUser.email}" class="text-center">Данные</h3>
+</div>
+
+<div style="background-color:lightblue; height: 130px"  class="container mt-2">
+    <h5 th:text="'Email - ' + ${domainUser.email}">Email</h5>
+    <h5 th:text="'Name - ' + ${domainUser.name}">Email</h5>
+    <h5 th:text="'Last Name - ' + ${domainUser.last_name}">Email</h5>
+    <h5 th:text="'Role - ' + ${roles}">Email</h5>
+    <br/>
+    <a href="/user/changePassword" class="btn btn-success float-right">Сменить пароль</a>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

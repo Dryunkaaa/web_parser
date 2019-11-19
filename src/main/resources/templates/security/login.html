@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body class="login-body">
+
+<!--<div class="container incorrect-login" th:if="${param.error}">-->
+<!--    <h3>Login or Password is wrong. Please try again.</h3>-->
+<!--</div>-->
+
+<div class="container-flurry info-block ml-5 mr-5 mb-4 incorrect-login" th:if="${param.error}">
+    <p class="pt-3 pb-3 text-center">Login or Password is wrong. Please try again.</p>
+</div>
+
+<div class="login-box">
+    <h1>Login</h1>
+
+    <form th:action="@{/login}" method="post">
+        <div class="textbox">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Username" name="username">
+        </div>
+
+        <div class="textbox">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" name="password">
+        </div>
+
+        <input type="submit" class="sign-btn" value="Sign in">
+    </form>
+</div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

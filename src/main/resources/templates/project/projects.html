@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Проекты</title>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!--Top menu-->
+<div th:replace="fragments/menu.html :: top-menu"/>
+
+<div class="container mt-1">
+    <div class="card">
+
+        <div class="container bg-primary">
+            <h3 th:text="'Проекты (' + ${projects.size()} + ' шт.)'">Проекты</h3>
+        </div>
+
+        <div style="height: 15px;"></div>
+
+        <div th:each="project : ${projects}" class="container">
+            <div class="container bg-info">
+                <h3 th:text="'Название проекта: ' + ${project.domain}">Название проекта:</h3>
+            </div>
+            <div class="container">
+                <ul class="list-group-item-secondary">
+                    <li th:text="'Кол-во страниц - ' + ${project.pages.size()}">Кол-во страниц</li>
+                    <li th:with="parsing_status=${project.parsingStatus} ? 'Активен' : 'Отключен'" th:text="'Состояние парсинга - ' + ${parsing_status}">Состояние парсинга</li>
+                </ul>
+            </div>
+
+            <div>
+                <a th:with="projectId=${project.id},parsing_status=${project.parsingStatus}" th:href="'/project/changeParsingState?projectId=' + ${projectId} + '&parsingStatus=' + ${parsing_status}" th:text="${project.parsingStatus} ? 'Остановить' : 'Запустить'" th:attr="class='btn float-right ' + (${project.parsingStatus} ? 'btn-danger' : 'btn-success')"href="#" class="btn btn-success float-right">button</a>
+                <a th:href="'/project/delete?projectId='+${project.id}" href="#" class="btn btn-danger float-left">Удалить</a>
+                <a th:href="'/project/pages?projectId=' + ${project.id} + '&pageNumber=0'" href="#" class="btn btn-info float-right mr-2">Страницы</a>
+                </br>
+                </br>
+            </div>
+        </div>
+        <!--<a href="#" class="btn btn-info pull-right">Добавить проект</a>-->
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <a th:href="'/project/create'" href="#" class="btn btn-info float-center mt-2">Добавить проект</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

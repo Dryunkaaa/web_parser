@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!--Top menu-->
+<div th:replace="fragments/menu.html :: top-menu"/>
+
+<div class="index_info container-flurry mt-3 mr-3 ml-3">
+    <h1 id="nameOfProject" class="text-center">Site Parser</h1>
+
+    <div th:if="${user!=null && showSuccessfulAuthorization==true}"
+         class="container-flurry info-block ml-2 mr-2 mb-4 successful-authorization-block">
+        <p th:text="'You are logged in as `' + ${user.username} + '`.'" class="pl-3 pt-3 pb-3 text-center">logged in</p>
+    </div>
+
+    <div class="container-flurry info-block ml-2 mr-2 mb-4 successful-authorization-block" th:if="${param.logout}">
+        <p class="pl-3 pt-3 pb-3 text-center">You have successfully logged out.</p>
+    </div>
+
+    <div th:if="${user==null}" class="container">
+        <div class="info-block authorization-block container-flurry mb-3 mt-4">
+            <p class="pt-3 pb-3 pl-2 text-center">If you want to start, please
+                <a href="/projects" class="index-href-to-authorization">sign in!</a>
+            </p>
+        </div>
+
+        <div class="info-block  authorization-block container-flurry mb-4">
+            <p class="pt-3 pb-3 pl-2 text-center">You don't have an account yet?
+                <a href="/register" class="index-href-to-authorization">Register a new account.</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="info-about-project-block container pb-4 mt-3">
+        <h5 id="info-about-project" class="pt-4 pb-4 text-center">
+            Here you can parse information from sites and search information by parameters such as Title,
+            Description, Content, URL.
+        </h5>
+    </div>
+
+    <div class="form-row text-center">
+        <div class="col-12">
+            <a href="/projects" class="btn btn-success start-parsing-btn mb-5">Start parsing</a>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

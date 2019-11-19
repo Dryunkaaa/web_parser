@@ -1,0 +1,35 @@
+
+<div th:fragment="top-menu" class="d-block top-menu" xmlns:th="http://www.w3.org/1999/xhtml">
+    <a href="/" class="btn menu-href">
+        <i class="fas fa-home"></i>
+        Home</a>
+    <a href="/projects" class="btn menu-href">
+        <i class="fas fa-server"></i>
+        Projects</a>
+    <a th:if="${isAdmin}" href="/admin" class="btn menu-href">
+        <i class="fas fa-users"></i>
+        Users</a>
+
+    <div class="dropdown float-right">
+        <button class="dropButton menu-href" id="dropButton">
+            <i class="fas fa-user user-icon"></i>
+            Account
+            <i class="fa fa-caret-down"></i>
+        </button>
+
+        <div id="my-dropdown" class="dropdown-content">
+            <a th:if="${user==null}" href="/login">
+                <i class="fas fa-sign-in-alt"></i>
+                Sign in</a>
+            <a th:if="${user==null}" href="/register">
+                <i class="fa fa-user-plus"></i>
+                Register</a>
+            <a th:if="${user!=null}" href="/user/info">
+                <i class="far fa-clock"></i>
+                Data</a>
+            <a th:if="${user!=null}" href="/logout">
+                <i class="fas fa-sign-out-alt"></i></i>
+                Sign out</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Редактирование ' + ${domainUser.email}">Редактирование</title>
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<!--Top menu-->
+<div th:replace="fragments/menu.html :: top-menu"/>
+
+<div th:if="${error}" style="height: 50px;" class="container-flurry bg-danger mt-2">
+    <h3 th:text="${error}" class="text-center">Ошибка</h3>
+</div>
+
+<div class="container-flurry bg-primary mt-2">
+    <h3 class="text-center" th:text="'Редактирование пользователя - ' + ${domainUser.email}">Редактирование:</h3>
+</div>
+
+<div class="container">
+    <form th:action="'/admin/user/acceptEdit?userEmail='+${domainUser.email}" method="post">
+        <h5>Email:</h5>
+        <input type="text" placeholder="Введите email" class="form-control" th:value="${domainUser.email}" name="email">
+        <h5>Пароль (введите если хотите изменить):</h5>
+        <input type="text" placeholder="Введите пароль" class="form-control" name="password">
+        <h5>Имя:</h5>
+        <input type="text" placeholder="Введите имя" class="form-control" th:value="${domainUser.name}" name="name">
+        <h5>Фамилия:</h5>
+        <input type="text" placeholder="Введите пароль" class="form-control" th:value="${domainUser.last_name}"
+               name="last_name">
+        <br/>
+        <div th:each="role : ${allRoles}" class="form-check">
+            <input type="checkbox" th:value="${role}" class="form-check-input" name="roles" th:checked="${domainUser.hasRole(role.role)}">
+            <label class="form-check-label" th:text="${role}">Role name</label>
+        </div>
+
+        <br/>
+        <input style="border-radius: 100px;" type="submit" class="btn btn-primary float-right" value="Подтвердить">
+    </form>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление пользователя</title>
+    <link rel="stylesheet" href="../../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!--Top Menu-->
+<div th:replace="fragments/menu.html :: top-menu"/>
+
+<div th:if="${error}" style="height: 50px;" class="container-flurry bg-danger mt-2">
+    <h3 th:text="${error}" class="text-center">Ошибка</h3>
+</div>
+
+<div class="container-flurry bg-primary mt-2">
+    <h3 class="text-center">Добавление пользователя:</h3>
+</div>
+
+<div class="container">
+    <form action="/admin/user/create" method="post">
+        <h5>Email: </h5>
+        <input type="text" placeholder="Введите email" name="email" class="form-control">
+        <h5>Пароль: </h5>
+        <input type="password" placeholder="Введите пароль" name="password" class="form-control">
+        <h5>Имя: </h5>
+        <input type="text" placeholder="Введите имя" name="name" class="form-control">
+        <h5>Фамилия: </h5>
+        <input type="text" placeholder="Введите фамилию" name="last_name" class="form-control">
+        <br/>
+        <!--        <input style="border-radius: 100px;" type="submit" class="btn btn-primary float-right" value="Добавить">-->
+        <input id="addUserButton" type="submit" class="btn btn-primary float-right" value="Добавить">
+    </form>
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>
