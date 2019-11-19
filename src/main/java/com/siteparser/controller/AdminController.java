@@ -2,6 +2,7 @@ package com.siteparser.controller;
 
 import com.siteparser.domain.Role;
 import com.siteparser.domain.User;
+import com.siteparser.service.convert.DateFormatService;
 import com.siteparser.service.jpa.RoleService;
 import com.siteparser.service.jpa.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class AdminController extends BaseSecurityController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private DateFormatService dateFormatService;
 
     @GetMapping("/test")
     public ModelAndView test(){

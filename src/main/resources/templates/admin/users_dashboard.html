@@ -38,6 +38,7 @@
                 <th th:text="${user.id}" scope="row">1</th>
                 <td th:text="${user.login}" class="text-in-table">login</td>
                 <td th:text="${user.email}" class="text-in-table">email</td>
+
                 <td>
                     <a th:if="${user.active==0}"
                        th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=1'"
@@ -46,16 +47,23 @@
                        th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=0'"
                        href="#" class="btn btn-success"><small>Activated</small></a>
                 </td>
+
                 <td>
                     <p th:each="role:${user.roles}" class="role-name">
                         <small th:text="'ROLE_' + ${role.role}" class="font-weight-bold">role</small>
                     </p>
                 </td>
-                <td th:text="${user.createdDate} + ' ' + ${user.createdTime}" class="text-in-table">created date</td>
-                <td th:text="${user.lastModifiedBy}" class="text-in-table">last modified by</td>
-                <td th:text="${user.lastModifiedDate} + ' ' + ${user.lastModifiedTime}" class="text-in-table">last
-                    modified date
+
+                <td th:text="${@dateFormatService.formatDate(user.createdDate, user.createdTime)}"
+                    class="text-in-table">created date
                 </td>
+
+                <td th:text="${user.lastModifiedBy}" class="text-in-table">last modified by</td>
+
+                <td th:text="${@dateFormatService.formatDate(user.lastModifiedDate, user.lastModifiedTime)}"
+                    class="text-in-table">created date
+                </td>
+                
                 <td>
                     <a th:href="'/admin/user/delete?email='+${user.email}" href="#"
                        class="btn btn-danger float-left"><small>

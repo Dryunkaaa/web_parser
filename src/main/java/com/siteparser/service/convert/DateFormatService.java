@@ -9,6 +9,7 @@ import java.util.Date;
 public class DateFormatService {
 
     public String formatDate(Date date, Date timeDate) {
+        if (date == null || timeDate == null) return "";
         StringBuilder builder = new StringBuilder();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         builder.append(simpleDateFormat.format(date).substring(0, 6));
