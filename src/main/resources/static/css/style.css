@@ -81,6 +81,15 @@ body{
     color: #fff;
 }
 
+.role-name {
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+}
+
 /*
 * Menu
 */

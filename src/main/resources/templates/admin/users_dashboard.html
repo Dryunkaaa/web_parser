@@ -24,6 +24,7 @@
                 <th scope="col">Login</th>
                 <th scope="col">Email</th>
                 <th scope="col" class="status-col">Status</th>
+                <th scope="col">Profiles</th>
                 <th scope="col">Created Date</th>
                 <th scope="col">Last Modified By</th>
                 <th scope="col">Last Modified Date</th>
@@ -41,6 +42,9 @@
                     <a th:if="${user.active==1}"
                        th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=0'"
                        href="#" class="btn btn-danger">Deactivated</a>
+                </td>
+                <td>
+                    <p th:each="role:${user.roles}" th:text="'ROLE_' + ${role.role}" class="role-name">role</p>
                 </td>
                 <td th:text="${user.createdDate} + ' ' + ${user.createdTime}">created date</td>
                 <td th:text="${user.lastModifiedBy}">last modified by</td>
