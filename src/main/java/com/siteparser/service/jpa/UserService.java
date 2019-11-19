@@ -3,6 +3,7 @@ package com.siteparser.service.jpa;
 import com.siteparser.domain.Role;
 import com.siteparser.domain.User;
 import com.siteparser.repository.UserRepository;
+import com.siteparser.service.security.SecurityProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SecurityProcessorService securityProcessorService;
 
     public User getByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -43,6 +47,10 @@ public class UserService {
     }
 
     public void update(User user) {
+        Date modifiedDate = new Date();
+        user.setLastModifiedDate(modifiedDate);
+        user.setLastModifiedTime(modifiedDate);
+        user.setLastModifiedBy(securityProcessorService.getUserFromContext().getUsername());
         userRepository.save(user);
     }
 
