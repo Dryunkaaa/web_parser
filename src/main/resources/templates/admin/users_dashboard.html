@@ -30,27 +30,42 @@
                 <th scope="col">Created Date</th>
                 <th scope="col">Last Modified By</th>
                 <th scope="col">Last Modified Date</th>
+                <th scope="col" class="status-col">Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user:${users}">
                 <th th:text="${user.id}" scope="row">1</th>
-                <td th:text="${user.login}">login</td>
-                <td th:text="${user.email}">email</td>
+                <td th:text="${user.login}" class="text-in-table">login</td>
+                <td th:text="${user.email}" class="text-in-table">email</td>
                 <td>
                     <a th:if="${user.active==0}"
                        th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=1'"
-                       href="#" class="btn btn-success">Activated</a>
+                       href="#" class="btn btn-danger"><small>Deactivated</small></a>
                     <a th:if="${user.active==1}"
                        th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=0'"
-                       href="#" class="btn btn-danger">Deactivated</a>
+                       href="#" class="btn btn-success"><small>Activated</small></a>
                 </td>
                 <td>
-                    <p th:each="role:${user.roles}" th:text="'ROLE_' + ${role.role}" class="role-name">role</p>
+                    <p th:each="role:${user.roles}" class="role-name">
+                        <small th:text="'ROLE_' + ${role.role}" class="font-weight-bold">role</small>
+                    </p>
                 </td>
-                <td th:text="${user.createdDate} + ' ' + ${user.createdTime}">created date</td>
-                <td th:text="${user.lastModifiedBy}">last modified by</td>
-                <td th:text="${user.lastModifiedDate} + ' ' + ${user.lastModifiedTime}">last modified date</td>
+                <td th:text="${user.createdDate} + ' ' + ${user.createdTime}" class="text-in-table">created date</td>
+                <td th:text="${user.lastModifiedBy}" class="text-in-table">last modified by</td>
+                <td th:text="${user.lastModifiedDate} + ' ' + ${user.lastModifiedTime}" class="text-in-table">last
+                    modified date
+                </td>
+                <td>
+                    <a th:href="'/admin/user/delete?email='+${user.email}" href="#"
+                       class="btn btn-danger float-left"><small>
+                        <i class="fas fa-user-times"></i>
+                        Delete</small></a>
+                    <a href="#" th:href="'/admin/user/edit?email=' + ${user.email}"
+                       class="btn btn-primary float-right mr-2"><small>
+                        <i class="fas fa-user-edit"></i>
+                        Edit</small></a>
+                </td>
             </tr>
             </tbody>
         </table>
