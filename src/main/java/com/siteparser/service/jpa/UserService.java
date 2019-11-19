@@ -46,17 +46,19 @@ public class UserService {
     }
 
     public void createAdmin() {
-        final String data = "admin";
+        final String adminEmail = "admin@localhost";
+        final String adminLogin = "admin";
         if (roleService.getRoleByName("USER") == null) roleService.createRole("USER");
         if (roleService.getRoleByName("ADMIN") == null) roleService.createRole("ADMIN");
-        User user = new User();
-        user.setEmail(data);
-        user.setPassword(passwordEncoder.encode(data));
-        user.setName(data);
-        user.setLast_name(data);
-        user.getRoles().add(roleService.getRoleByName("USER"));
-        user.getRoles().add(roleService.getRoleByName("ADMIN"));
-        userRepository.save(user);
+        User admin = new User();
+        admin.setLogin(adminLogin);
+        admin.setEmail(adminEmail);
+        admin.setPassword(passwordEncoder.encode(adminLogin));
+        admin.setName(adminEmail);
+        admin.setLast_name(adminEmail);
+        admin.getRoles().add(roleService.getRoleByName("USER"));
+        admin.getRoles().add(roleService.getRoleByName("ADMIN"));
+        userRepository.save(admin);
     }
 
     public void save(User user){
