@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,12 +49,15 @@ public class UserService {
     public void createAdmin() {
         final String adminEmail = "admin@localhost";
         final String adminLogin = "admin";
+        final Date createdDate = new Date();
         if (roleService.getRoleByName("USER") == null) roleService.createRole("USER");
         if (roleService.getRoleByName("ADMIN") == null) roleService.createRole("ADMIN");
         User admin = new User();
         admin.setLogin(adminLogin);
         admin.setEmail(adminEmail);
         admin.setPassword(passwordEncoder.encode(adminLogin));
+        admin.setCreatedDate(createdDate);
+        admin.setCreatedTime(createdDate);
         admin.setName(adminEmail);
         admin.setLast_name(adminEmail);
         admin.getRoles().add(roleService.getRoleByName("USER"));
