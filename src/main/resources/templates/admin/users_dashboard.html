@@ -21,13 +21,18 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
+                <th scope="col">Login</th>
                 <th scope="col">Email</th>
                 <th scope="col" class="status-col">Status</th>
+                <th scope="col">Created Date</th>
+                <th scope="col">Last Modified By</th>
+                <th scope="col">Last Modified Date</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user:${users}">
                 <th th:text="${user.id}" scope="row">1</th>
+                <td th:text="${user.login}">login</td>
                 <td th:text="${user.email}">email</td>
                 <td>
                     <a th:if="${user.active==0}"
@@ -37,8 +42,9 @@
                        th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=0'"
                        href="#" class="btn btn-danger">Deactivated</a>
                 </td>
-
-
+                <td th:text="${user.createdDate} + ' ' + ${user.createdTime}">created date</td>
+                <td th:text="${user.lastModifiedBy}">last modified by</td>
+                <td th:text="${user.lastModifiedDate} + ' ' + ${user.lastModifiedTime}">last modified date</td>
             </tr>
             </tbody>
         </table>
