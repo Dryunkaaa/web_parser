@@ -24,13 +24,13 @@ public class UserValidateService {
                 case ok:
                     return "OK";
                 case invalidEmail:
-                    return "Некоректный email.";
+                    return "Incorrect email.";
                 case shortPassword:
-                    return "Короткий пароль! Пароль должен быть больше 5-ти символов.";
+                    return "Password is short! Password must be more than 5 characters.";
                 case userExists:
-                    return "Пользователь с таким email уже существует.";
+                    return "A user with this email or login already exists.";
                 case invalidPassword:
-                    return "Неправильный пароль.";
+                    return "Incorrect password.";
                 default:
                     return "";
             }
@@ -38,7 +38,9 @@ public class UserValidateService {
     }
 
     public ValidateResult validate(User user) {
-        if (userService.getByEmail(user.getEmail()) != null) return ValidateResult.userExists;
+        if (userService.getByEmail(user.getEmail()) != null || userService.getUserByLogin(user.getLogin()) != null) {
+            return ValidateResult.userExists;
+        }
         if (user.getPassword().length() < 5) return ValidateResult.shortPassword;
         if (!isValidEmailAddress(user.getEmail())) return ValidateResult.invalidEmail;
         return ValidateResult.ok;
@@ -51,7 +53,7 @@ public class UserValidateService {
         return m.matches();
     }
 
-    public ValidateResult validatePassword(User user, String oldPassword, String newPassword){
+    public ValidateResult validatePassword(User user, String oldPassword, String newPassword) {
         if (newPassword.length() < 5) return ValidateResult.shortPassword;
         // сравнение паролей
         if (!BCrypt.checkpw(oldPassword, user.getPassword())) return ValidateResult.invalidPassword;
