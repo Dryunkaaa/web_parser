@@ -4,7 +4,7 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
-    <title>Пользователи</title>
+    <title>Users</title>
     <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -80,32 +80,7 @@
             </tbody>
         </table>
     </div>
-    <!--    <p class="users-text ml-4 mt-3">Users</p>-->
-    <!--    <a href="#" class="btn btn-info float-right mr-4 mt-4">Create a new user</a>-->
-
-
 </div>
-<!--<div class="container-furry bg-primary mt-2">-->
-<!--    <h1 class="text-center">Пользователи: </h1>-->
-<!--</div>-->
-
-<!--<div class="container mt-2">-->
-<!--    <div style="height: 105px; background-color:lightblue" th:each="user : ${users}" class="mb-4 pb-3 pt-3 pl-2">-->
-<!--        <h3 th:text="${user.email}">Имя пользователя</h3>-->
-<!--        <a th:if="${user.active==0}" th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=1'"-->
-<!--           href="#" class="btn btn-success float-right mr-2">Активировать</a>-->
-<!--        <a th:if="${user.active==1}" th:href="'/admin/user/setUserActiveStatus?email='+${user.email}+'&status=0'"-->
-<!--           href="#" class="btn btn-danger float-right mr-2">Деактивировать</a>-->
-<!--        <a href="#" th:href="'/admin/user/edit?email=' + ${user.email}" class="btn btn-primary float-right mr-2">Редактировать</a>-->
-<!--        <a th:href="'/admin/user/delete?email='+${user.email}" href="#" class="btn btn-danger float-left">Удалить</a>-->
-<!--    </div>-->
-
-<!--    <div class="container-flurry">-->
-<!--        <a style="border-radius: 100px;" href="/admin/user/add" class="btn btn-primary float-right">Добавить-->
-<!--            пользователя</a>-->
-<!--    </div>-->
-<!--</div>-->
-
 <script th:src="@{/js/script.js}"></script>
 </body>
 </html>
