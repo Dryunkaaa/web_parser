@@ -22,15 +22,12 @@
 
 <div class="container">
     <form th:action="'/admin/user/acceptEdit?userEmail='+${domainUser.email}" method="post">
+        <h5>Login:</h5>
+        <input type="text" placeholder="Enter login" class="form-control" th:value="${domainUser.login}" name="login">
         <h5>Email:</h5>
         <input type="text" placeholder="Введите email" class="form-control" th:value="${domainUser.email}" name="email">
         <h5>Пароль (введите если хотите изменить):</h5>
         <input type="text" placeholder="Введите пароль" class="form-control" name="password">
-        <h5>Имя:</h5>
-        <input type="text" placeholder="Введите имя" class="form-control" th:value="${domainUser.name}" name="name">
-        <h5>Фамилия:</h5>
-        <input type="text" placeholder="Введите пароль" class="form-control" th:value="${domainUser.last_name}"
-               name="last_name">
         <br/>
         <div th:each="role : ${allRoles}" class="form-check">
             <input type="checkbox" th:value="${role}" class="form-check-input" name="roles" th:checked="${domainUser.hasRole(role.role)}">

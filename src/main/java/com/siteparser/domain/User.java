@@ -51,12 +51,6 @@ public class User {
     @Temporal(TemporalType.TIME)
     private Date lastModifiedTime;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "last_name")
-    private String last_name;
-
     @Column(name = "active")
     private int active = 1;
 

@@ -91,15 +91,13 @@ public class AdminController extends BaseSecurityController {
     @PostMapping("/admin/user/acceptEdit")
     public String acceptEdit(@RequestParam(value = "email", required = true) String email,
                              @RequestParam(value = "password", required = false) String password,
-                             @RequestParam(value = "name", required = false) String name,
-                             @RequestParam(value = "last_name", required = false) String last_name,
+                             @RequestParam(value = "login", required = false) String login,
                              @RequestParam(value = "userEmail", required = true) String userEmail,
                              @RequestParam(value = "roles", required = true) String[] roles) {
         User user = userService.getByEmail(userEmail);
         if (user != null) {
             if (checkField(email)) user.setEmail(email);
-            if (checkField(name)) user.setName(name);
-            if (checkField(last_name)) user.setLast_name(last_name);
+            if (checkField(login)) user.setLogin(login);
             if (checkField(password)) user.setPassword(passwordEncoder.encode(password));
             user.getRoles().clear();
             for (String roleName:roles){

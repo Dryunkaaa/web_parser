@@ -70,8 +70,6 @@ public class UserService {
         admin.setPassword(passwordEncoder.encode(adminLogin));
         admin.setCreatedDate(createdDate);
         admin.setCreatedTime(createdDate);
-        admin.setName(adminEmail);
-        admin.setLast_name(adminEmail);
         admin.getRoles().add(roleService.getRoleByName("USER"));
         admin.getRoles().add(roleService.getRoleByName("ADMIN"));
         userRepository.save(admin);

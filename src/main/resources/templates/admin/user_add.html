@@ -23,14 +23,12 @@
 
 <div class="container">
     <form action="/admin/user/create" method="post">
+        <h5>Login: </h5>
+        <input type="text" placeholder="Введите login" name="login" class="form-control">
         <h5>Email: </h5>
         <input type="text" placeholder="Введите email" name="email" class="form-control">
         <h5>Пароль: </h5>
         <input type="password" placeholder="Введите пароль" name="password" class="form-control">
-        <h5>Имя: </h5>
-        <input type="text" placeholder="Введите имя" name="name" class="form-control">
-        <h5>Фамилия: </h5>
-        <input type="text" placeholder="Введите фамилию" name="last_name" class="form-control">
         <br/>
         <!--        <input style="border-radius: 100px;" type="submit" class="btn btn-primary float-right" value="Добавить">-->
         <input id="addUserButton" type="submit" class="btn btn-primary float-right" value="Добавить">

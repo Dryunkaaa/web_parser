@@ -18,9 +18,8 @@
 </div>
 
 <div style="background-color:lightblue; height: 130px"  class="container mt-2">
+    <h5 th:text="'Login - ' + ${domainUser.login}">Login</h5>
     <h5 th:text="'Email - ' + ${domainUser.email}">Email</h5>
-    <h5 th:text="'Name - ' + ${domainUser.name}">Email</h5>
-    <h5 th:text="'Last Name - ' + ${domainUser.last_name}">Email</h5>
     <h5 th:text="'Role - ' + ${roles}">Email</h5>
     <br/>
     <a href="/user/changePassword" class="btn btn-success float-right">Сменить пароль</a>
