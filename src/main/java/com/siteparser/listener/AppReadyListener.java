@@ -1,6 +1,7 @@
 package com.siteparser.listener;
 
 import com.siteparser.service.jpa.UserService;
+import com.siteparser.service.parser.ParserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
