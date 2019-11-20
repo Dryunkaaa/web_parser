@@ -2,6 +2,7 @@ package com.siteparser.controller;
 
 import com.siteparser.domain.Project;
 import com.siteparser.domain.User;
+import com.siteparser.service.jpa.PageService;
 import com.siteparser.service.jpa.ProjectService;
 import com.siteparser.service.jpa.UserService;
 import com.siteparser.service.security.SecurityProcessorService;
@@ -15,6 +16,9 @@ public class ProjectController extends BaseSecurityController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private PageService pageService;
 
     @Autowired
     private UserService userService;

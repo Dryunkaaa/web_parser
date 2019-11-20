@@ -99,4 +99,8 @@ public class PageService {
     public void deleteAllByType(String type, long projectId){
         pageRepository.deleteAllByTypeInUrl(type, projectId);
     }
+
+    public int getCountOfSuccessfulParsedPages(Project project){
+        return project.getPages().size() - this.getUnparsedProjectPages(project).size();
+    }
 }

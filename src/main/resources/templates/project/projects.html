@@ -29,7 +29,7 @@
                 <th scope="col">Link</th>
                 <th scope="col" class="status-col">Parsing Status</th>
                 <th scope="col">Pages</th>
-                <th scope="col">Pages Requested</th>
+                <th scope="col">Pages Paired</th>
                 <th scope="col" class="status-col">Actions</th>
             </tr>
             </thead>
@@ -52,7 +52,7 @@
                 </td>
 
                 <td th:text="${project.pages.size()}">Pages</td>
-                <td th:text="${project.pages.size()}">Pages Requested</td>
+                <td th:text="${@pageService.getCountOfSuccessfulParsedPages(project)}">Pages Paired</td>
 
                 <td>
                     <a th:href="'/project/delete?projectId='+${project.id}" href="#" class="btn btn-danger float-left">
