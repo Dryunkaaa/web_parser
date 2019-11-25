@@ -1,3 +1,77 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
+<!--      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Projects</title>-->
+<!--    <link rel="stylesheet" href="../static/css/style.css" type="text/css" th:href="@{/css/style.css}">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash;Top menu&ndash;&gt;-->
+<!--<div th:replace="fragments/menu.html :: top-menu"/>-->
+
+<!--<div class="index_info container-flurry mt-3 mr-3 ml-3">-->
+<!--    <div class="container-flurry ml-4 mr-4">-->
+<!--        <p th:if="${projects.size()>1}" class="users-text mt-3"-->
+<!--           th:text="'Projects (' + ${projects.size()} + ' pieces)'">Projects</p>-->
+<!--        <p th:if="${projects.size()<=1}" class="users-text mt-3"-->
+<!--           th:text="'Projects (' + ${projects.size()} + ' piece)'">Projects</p>-->
+<!--        <a href="/project/create" class="btn btn-info float-right mt-4">-->
+<!--            <i class="fas fa-plus"></i>-->
+<!--            Create a new project</a>-->
+
+<!--        <table class="table table-striped">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">ID</th>-->
+<!--                <th scope="col">Link</th>-->
+<!--                <th scope="col" class="status-col">Parsing Status</th>-->
+<!--                <th scope="col">Pages</th>-->
+<!--                <th scope="col">Pages Paired</th>-->
+<!--                <th scope="col" class="status-col">Actions</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="project:${projects}">-->
+<!--                <th th:text="${project.id}" scope="row">1</th>-->
+<!--                <td th:text="${project.domain}" class="text-in-table">Link</td>-->
+
+<!--                <td>-->
+<!--                    <a th:if="${project.parsingStatus==true}" href="#"-->
+<!--                       th:with="projectId=${project.id},parsing_status=${project.parsingStatus}"-->
+<!--                       th:href="'/project/changeParsingState?projectId=' + ${projectId} + '&parsingStatus=' + ${parsing_status}"-->
+<!--                       class="btn btn-success">-->
+<!--                        Activated</a>-->
+<!--                    <a th:if="${project.parsingStatus==false}" href="#"-->
+<!--                       th:with="projectId=${project.id},parsing_status=${project.parsingStatus}"-->
+<!--                       th:href="'/project/changeParsingState?projectId=' + ${projectId} + '&parsingStatus=' + ${parsing_status}"-->
+<!--                       class="btn btn-danger">-->
+<!--                        Deactivated</a>-->
+<!--                </td>-->
+
+<!--                <td th:text="${project.pages.size()}">Pages</td>-->
+<!--                <td th:text="${@pageService.getCountOfSuccessfulParsedPages(project)}">Pages Paired</td>-->
+
+<!--                <td>-->
+<!--                    <a th:href="'/project/delete?projectId='+${project.id}" href="#" class="btn btn-danger float-left">-->
+<!--                        <i class="far fa-trash-alt"></i>-->
+<!--                        Delete</a>-->
+<!--                    <a th:href="'/project/pages?projectId=' + ${project.id} + '&pageNumber=0'" href="#"-->
+<!--                       class="btn btn-info float-left ml-1">-->
+<!--                        <i class="fas fa-eye"></i>-->
+<!--                        View</a>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script th:src="@{/js/script.js}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -14,10 +88,10 @@
 
 <div class="index_info container-flurry mt-3 mr-3 ml-3">
     <div class="container-flurry ml-4 mr-4">
-        <p th:if="${projects.size()>1}" class="users-text mt-3"
-           th:text="'Projects (' + ${projects.size()} + ' pieces)'">Projects</p>
-        <p th:if="${projects.size()<=1}" class="users-text mt-3"
-           th:text="'Projects (' + ${projects.size()} + ' piece)'">Projects</p>
+        <p th:if="${totalCountOfProjects>1}" class="users-text mt-3"
+           th:text="'Projects (' + ${totalCountOfProjects} + ' pieces)'">Projects</p>
+        <p th:if="${totalCountOfProjects<=1}" class="users-text mt-3"
+           th:text="'Projects (' + ${totalCountOfProjects} + ' piece)'">Projects</p>
         <a href="/project/create" class="btn btn-info float-right mt-4">
             <i class="fas fa-plus"></i>
             Create a new project</a>
@@ -66,6 +140,17 @@
             </tr>
             </tbody>
         </table>
+
+        <div th:if="${countOfPages}" class="text-center mb-2 pb-1">
+            <div class="users-pagination btn-group">
+                <a href="/projects?pageNumber=0" class="btn pagination-btn">««</a>
+                <a href="#" class="btn pagination-btn" th:href="'/projects?pageNumber='+(${pageNumber==0}?'0':${pageNumber-1})">«</a>
+                <a href="#" class="btn btn-primary pagination-btn" th:text="${pageNumber+1}">1</a>
+                <a href="#" class="btn pagination-btn" th:href="'/projects?pageNumber=' + (${countOfPages==(pageNumber+1)} ? ${pageNumber} : ${pageNumber+1})">»</a>
+                <a href="#" class="btn pagination-btn" th:href="'/projects?pageNumber='+${countOfPages-1}">»»</a>
+            </div>
+        </div>
+
     </div>
 </div>
 <script th:src="@{/js/script.js}"></script>

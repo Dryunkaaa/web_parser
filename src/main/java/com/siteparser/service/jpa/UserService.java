@@ -82,4 +82,8 @@ public class UserService {
     public User getUserByLogin(String login){
         return userRepository.findByLogin(login);
     }
+
+    public List<User> getUsersWithOffset(long offset, long count){
+        return userRepository.getUsersWithOffset(offset, count);
+    }
 }

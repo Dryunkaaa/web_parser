@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class AdminController extends BaseSecurityController {
+
+    private final static int COUNT_OF_USERS_ON_PAGE = 20;
 
     @Autowired
     private UserService userService;
@@ -29,15 +33,18 @@ public class AdminController extends BaseSecurityController {
     @Autowired
     private DateFormatService dateFormatService;
 
-    @GetMapping("/test")
-    public ModelAndView test(){
-        return new ModelAndView("test");
-    }
-
     @GetMapping("/admin")
-    public ModelAndView showAllUsers() {
+    public ModelAndView showAllUsers(@RequestParam(required = false, defaultValue = "0") String pageNumber) {
         ModelAndView modelAndView = createModelAndView("/admin/users_dashboard");
-        modelAndView.addObject("users", userService.getAll());
+        int pNumber = Integer.parseInt(pageNumber);
+        List<User> usersForView = userService.getUsersWithOffset(pNumber * COUNT_OF_USERS_ON_PAGE, COUNT_OF_USERS_ON_PAGE);
+        long totalUsersCount = userService.getAll().size();
+        long countOfPages = totalUsersCount/COUNT_OF_USERS_ON_PAGE;
+        if (totalUsersCount % COUNT_OF_USERS_ON_PAGE != 0) countOfPages++;
+//        modelAndView.addObject("users", userService.getAll());
+        modelAndView.addObject("users", usersForView);
+        modelAndView.addObject("countOfPages", countOfPages);
+        modelAndView.addObject("pageNumber", pNumber);
         return modelAndView;
     }
 

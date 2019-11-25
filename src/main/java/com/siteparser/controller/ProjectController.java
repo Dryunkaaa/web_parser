@@ -11,8 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 public class ProjectController extends BaseSecurityController {
+
+    private final static int COUNT_OF_RECORDS = 20;
 
     @Autowired
     private ProjectService projectService;
@@ -32,10 +37,20 @@ public class ProjectController extends BaseSecurityController {
     }
 
     @GetMapping("/projects")
-    public ModelAndView getAllProjects() {
+    public ModelAndView getAllProjects(@RequestParam(required = false, defaultValue = "0") String pageNumber) {
         ModelAndView modelAndView = createModelAndView("/project/projects");
         User user = getCurrentUser();
-        modelAndView.addObject("projects", projectService.getAll(user));
+        int pNumber = Integer.parseInt(pageNumber);
+        List<Project> allProjects = projectService.getAll(user);
+        List<Project> projectsToShow = allProjects.stream()
+                .skip(pNumber * COUNT_OF_RECORDS)
+                .limit(COUNT_OF_RECORDS).collect(Collectors.toList());
+        int countOfPages = allProjects.size()/COUNT_OF_RECORDS;
+        if (allProjects.size() % COUNT_OF_RECORDS != 0) countOfPages++;
+        modelAndView.addObject("projects", projectsToShow);
+        modelAndView.addObject("pageNumber", pNumber);
+        modelAndView.addObject("countOfPages", countOfPages);
+        modelAndView.addObject("totalCountOfProjects", allProjects.size());
         return modelAndView;
     }
 
