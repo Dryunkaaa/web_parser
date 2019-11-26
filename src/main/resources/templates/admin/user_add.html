@@ -12,7 +12,7 @@
 
 <!--Top Menu-->
 <div th:replace="fragments/menu.html :: top-menu"/>
-
+<div th:replace="fragments/sign-in.html :: sign-in-modal"/>
 <div th:if="${error}" style="height: 50px;" class="container-flurry bg-danger mt-2">
     <h3 th:text="${error}" class="text-center">Ошибка</h3>
 </div>

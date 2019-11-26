@@ -1,0 +1,38 @@
+<div th:fragment="sign-in-modal" class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModal"
+     aria-hidden="true" xmlns:th="http://www.w3.org/1999/xhtml">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signInModalLabel">Sing in</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+
+                <div class="container-flurry info-block ml-5 mr-5 mb-4 incorrect-login fs-default" th:if="${param.error}">
+                    <p class="pt-3 pb-3 text-center">Login or Password is wrong. Please try again.</p>
+                </div>
+
+                <form th:action="@{/login}" method="post">
+                    <p>Login</p>
+                    <input type="text" name="username">
+                    <p class="mt-3">Password</p>
+                    <input type="password" name="password">
+                    <br>
+                    <input type="submit" class="btn btn-primary mt-3" value="Sign in">
+                </form>
+
+                <div class="info-block authorization-block container fs-default mb-4 mt-3">
+                    <p class="pt-3 pb-3 pl-2 text-center ">You don't have an account yet?
+                        <a href="/register" class="index-href-to-authorization">Register a new account.</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

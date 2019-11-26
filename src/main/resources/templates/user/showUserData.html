@@ -12,6 +12,7 @@
 
 <!--Top menu-->
 <div th:replace="fragments/menu.html :: top-menu"></div>
+<div th:replace="fragments/sign-in.html :: sign-in-modal"/>
 
 <div class="container-flurry bg-primary mt-2">
     <h3 th:text="'Данные аккаунта - ' + ${domainUser.email}" class="text-center">Данные</h3>

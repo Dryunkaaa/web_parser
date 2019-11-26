@@ -31,7 +31,7 @@ public class ProjectController extends BaseSecurityController {
     @Autowired
     private SecurityProcessorService securityProcessorService;
 
-    private User getCurrentUser(){
+    private User getCurrentUser() {
         String userEmail = securityProcessorService.getCurrentUserEmail();
         return userService.getByEmail(userEmail);
     }
@@ -45,7 +45,7 @@ public class ProjectController extends BaseSecurityController {
         List<Project> projectsToShow = allProjects.stream()
                 .skip(pNumber * COUNT_OF_RECORDS)
                 .limit(COUNT_OF_RECORDS).collect(Collectors.toList());
-        int countOfPages = allProjects.size()/COUNT_OF_RECORDS;
+        int countOfPages = allProjects.size() / COUNT_OF_RECORDS;
         if (allProjects.size() % COUNT_OF_RECORDS != 0) countOfPages++;
         modelAndView.addObject("projects", projectsToShow);
         modelAndView.addObject("pageNumber", pNumber);

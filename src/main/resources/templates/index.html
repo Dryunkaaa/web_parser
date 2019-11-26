@@ -11,9 +11,10 @@
 
 <!--Top menu-->
 <div th:replace="fragments/menu.html :: top-menu"/>
+<div th:replace="fragments/sign-in.html :: sign-in-modal"/>
 
 <div class="index_info container-flurry mt-3 mr-3 ml-3">
-    <h1 id="nameOfProject" class="text-center">Site Parser</h1>
+    <h1 id="nameOfProject" class="text-center pt-4">Site Parser</h1>
 
     <div th:if="${user!=null && showSuccessfulAuthorization==true}"
          class="container-flurry info-block ml-2 mr-2 mb-4 successful-authorization-block">
@@ -51,6 +52,14 @@
         </div>
     </div>
 </div>
+
+<script th:if="${param.login} or ${param.error}">
+    function openModal() {
+        $("#sign-in").click();
+    }
+    setTimeout(openModal, 0);
+</script>
+
 <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

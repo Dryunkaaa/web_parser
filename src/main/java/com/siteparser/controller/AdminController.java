@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 public class AdminController extends BaseSecurityController {
 
-    private final static int COUNT_OF_USERS_ON_PAGE = 20;
+    private final static int COUNT_OF_RECORDS = 20;
 
     @Autowired
     private UserService userService;
@@ -37,11 +37,10 @@ public class AdminController extends BaseSecurityController {
     public ModelAndView showAllUsers(@RequestParam(required = false, defaultValue = "0") String pageNumber) {
         ModelAndView modelAndView = createModelAndView("/admin/users_dashboard");
         int pNumber = Integer.parseInt(pageNumber);
-        List<User> usersForView = userService.getUsersWithOffset(pNumber * COUNT_OF_USERS_ON_PAGE, COUNT_OF_USERS_ON_PAGE);
+        List<User> usersForView = userService.getUsersWithOffset(pNumber * COUNT_OF_RECORDS, COUNT_OF_RECORDS);
         long totalUsersCount = userService.getAll().size();
-        long countOfPages = totalUsersCount/COUNT_OF_USERS_ON_PAGE;
-        if (totalUsersCount % COUNT_OF_USERS_ON_PAGE != 0) countOfPages++;
-//        modelAndView.addObject("users", userService.getAll());
+        long countOfPages = totalUsersCount/ COUNT_OF_RECORDS;
+        if (totalUsersCount % COUNT_OF_RECORDS != 0) countOfPages++;
         modelAndView.addObject("users", usersForView);
         modelAndView.addObject("countOfPages", countOfPages);
         modelAndView.addObject("pageNumber", pNumber);

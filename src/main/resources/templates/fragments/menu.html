@@ -1,4 +1,3 @@
-
 <div th:fragment="top-menu" class="d-block top-menu" xmlns:th="http://www.w3.org/1999/xhtml">
     <a href="/" class="btn menu-href">
         <i class="fas fa-home"></i>
@@ -18,7 +17,10 @@
         </button>
 
         <div id="my-dropdown" class="dropdown-content">
-            <a th:if="${user==null}" href="/login">
+<!--            <a th:if="${user==null}" href="/login">-->
+<!--                <i class="fas fa-sign-in-alt"></i>-->
+<!--                Sign in</a>-->
+            <a th:if="${user==null}" data-toggle="modal" data-target="#signInModal" id="sign-in">
                 <i class="fas fa-sign-in-alt"></i>
                 Sign in</a>
             <a th:if="${user==null}" href="/register">

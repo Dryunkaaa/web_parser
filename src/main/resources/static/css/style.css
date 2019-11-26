@@ -4,6 +4,10 @@ body{
     background-color: #dfe3e1;
 }
 
+.fs-default{
+  font-size: 16px !important;
+}
+
 /*
 * Index
  */
@@ -198,7 +202,7 @@ body{
 
 .incorrect-login {
     color: #ffffff;
-    margin-top: 200px;
+    /*margin-top: 200px;*/
     background-color: #fa8686;
 }
 
