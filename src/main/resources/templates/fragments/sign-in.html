@@ -29,10 +29,16 @@
 
                 <div class="info-block authorization-block container fs-default mb-4 mt-3">
                     <p class="pt-3 pb-3 pl-2 text-center ">You don't have an account yet?
-                        <a href="/register" class="index-href-to-authorization">Register a new account.</a>
+                        <a href="/?register" class="index-href-to-authorization">Register a new account.</a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
+    <script th:if="${param.login} or ${param.error}">
+        function openModal() {
+            $("#sign-in").click();
+        }
+        setTimeout(openModal, 0);
+    </script>
 </div>

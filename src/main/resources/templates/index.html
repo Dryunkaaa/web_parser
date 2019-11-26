@@ -12,6 +12,7 @@
 <!--Top menu-->
 <div th:replace="fragments/menu.html :: top-menu"/>
 <div th:replace="fragments/sign-in.html :: sign-in-modal"/>
+<div th:replace="fragments/register.html :: register-modal"/>
 
 <div class="index_info container-flurry mt-3 mr-3 ml-3">
     <h1 id="nameOfProject" class="text-center pt-4">Site Parser</h1>
@@ -28,13 +29,13 @@
     <div th:if="${user==null}" class="container">
         <div class="info-block authorization-block container-flurry mb-3 mt-4">
             <p class="pt-3 pb-3 pl-2 text-center">If you want to start, please
-                <a href="/projects" class="index-href-to-authorization">sign in!</a>
+                <a href="/" class="index-href-to-authorization">sign in!</a>
             </p>
         </div>
 
         <div class="info-block  authorization-block container-flurry mb-4">
             <p class="pt-3 pb-3 pl-2 text-center">You don't have an account yet?
-                <a href="/register" class="index-href-to-authorization">Register a new account.</a>
+                <a href="/?register" class="index-href-to-authorization">Register a new account.</a>
             </p>
         </div>
     </div>
@@ -53,12 +54,19 @@
     </div>
 </div>
 
-<script th:if="${param.login} or ${param.error}">
-    function openModal() {
-        $("#sign-in").click();
-    }
-    setTimeout(openModal, 0);
-</script>
+<!--<script th:if="${param.login} or ${param.error}">-->
+<!--    function openModal() {-->
+<!--        $("#sign-in").click();-->
+<!--    }-->
+<!--    setTimeout(openModal, 0);-->
+<!--</script>-->
+
+<!--<script th:if="${registerError} or ${param.register}">-->
+<!--    function openRegister() {-->
+<!--        $("#register").click();-->
+<!--    }-->
+<!--    setTimeout(openRegister, 0);-->
+<!--</script>-->
 
 <script th:src="@{/js/script.js}"></script>
 </body>
