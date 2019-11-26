@@ -17,13 +17,6 @@
         </button>
 
         <div id="my-dropdown" class="dropdown-content">
-<!--            <a th:if="${user==null}" href="/login">-->
-<!--                <i class="fas fa-sign-in-alt"></i>-->
-<!--                Sign in</a>-->
-
-<!--            <a th:if="${user==null}" href="/register">-->
-<!--                <i class="fa fa-user-plus"></i>-->
-<!--                Register</a>-->
             <a th:if="${user==null}" href="#" data-toggle="modal" data-target="#signInModal" id="sign-in">
                 <i class="fas fa-sign-in-alt"></i>
                 Sign in</a>

@@ -82,10 +82,10 @@ public class ProjectController extends BaseSecurityController {
         return "redirect:/projects";
     }
 
-    @GetMapping("/project/create")
-    public ModelAndView createProject() {
-        return createModelAndView("/project/create");
-    }
+//    @GetMapping("/project/create")
+//    public ModelAndView createProject() {
+//        return createModelAndView("/project/create");
+//    }
 
     @PostMapping("/project/add")
     public String addProject(@ModelAttribute Project project) {

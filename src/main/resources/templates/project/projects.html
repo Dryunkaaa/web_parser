@@ -85,7 +85,7 @@
 
 <!--Top menu-->
 <div th:replace="fragments/menu.html :: top-menu"/>
-<div th:replace="fragments/sign-in.html :: sign-in-modal"/>
+<div th:replace="fragments/create-project.html :: create-project-modal"/>
 
 <div class="index_info container-flurry mt-3 mr-3 ml-3">
     <div class="container-flurry ml-4 mr-4">
@@ -93,7 +93,7 @@
            th:text="'Projects (' + ${totalCountOfProjects} + ' pieces)'">Projects</p>
         <p th:if="${totalCountOfProjects<=1}" class="users-text mt-3"
            th:text="'Projects (' + ${totalCountOfProjects} + ' piece)'">Projects</p>
-        <a href="/project/create" class="btn btn-info float-right mt-4">
+        <a href="#" class="btn btn-info float-right mt-4" data-toggle="modal" data-target="#createProjectModal">
             <i class="fas fa-plus"></i>
             Create a new project</a>
 

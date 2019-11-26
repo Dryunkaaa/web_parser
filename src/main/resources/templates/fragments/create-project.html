@@ -1,0 +1,34 @@
+<div th:fragment="create-project-modal" class="modal fade" id="createProjectModal" tabindex="-1" role="dialog" aria-labelledby="createProjectModal"
+     aria-hidden="true" xmlns:th="http://www.w3.org/1999/xhtml">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProjectModalLabel">Project creation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+
+                <div class="container-flurry info-block ml-5 mr-5 mb-4 incorrect-login fs-default" th:if="${param.error}">
+                    <p class="pt-3 pb-3 text-center">Login or Password is wrong. Please try again.</p>
+                </div>
+
+                <form action="/project/add" method="post">
+                    <p>Domain (http/https)</p>
+                    <input type="text" name="domain">
+                    <div class="form-check mt-2">
+                        <input type="checkbox" class="form-check-input" name="parsingStatus" id="start-parsing-check">
+                        <label class="form-check-label" for="start-parsing-check">Start parsing right away</label>
+                    </div>
+                    <br>
+                    <input type="submit" class="btn btn-primary mt-3" value="Create">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
