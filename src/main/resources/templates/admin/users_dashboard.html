@@ -16,7 +16,8 @@
 <div class="index_info container-flurry mt-3 mr-3 ml-3">
     <div class="container-flurry ml-4 mr-4">
         <p class="users-text mt-3">Users</p>
-        <a href="#" class="btn btn-info float-right mt-4" data-toggle="modal" data-target="#createUserModal" id="createUserBtn">
+        <a href="#" class="btn btn-info float-right mt-4" data-toggle="modal" data-target="#createUserModal"
+           id="createUserBtn">
             <i class="fas fa-user-plus"></i>
             Create a new user</a>
 
@@ -37,8 +38,12 @@
             <tbody>
             <tr th:each="eachUser:${users}">
                 <th th:text="${eachUser.id}" scope="row">1</th>
-                <td th:text="${eachUser.login}" class="text-in-table">login</td>
-                <td th:text="${eachUser.email}" class="text-in-table">email</td>
+                <td>
+                    <small th:text="${eachUser.login}">login</small>
+                </td>
+                <td>
+                    <small th:text="${eachUser.email}">email</small>
+                </td>
 
                 <td>
                     <a th:if="${eachUser.active==0}"
@@ -56,14 +61,22 @@
                     </p>
                 </td>
 
-                <td th:text="${@dateFormatService.formatDate(eachUser.createdDate, eachUser.createdTime)}"
-                    class="text-in-table">created date
+                <td>
+                    <small th:text="${@dateFormatService.formatDate(eachUser.createdDate, eachUser.createdTime)}">
+                        created date
+                    </small>
                 </td>
 
-                <td th:text="${eachUser.lastModifiedBy}" class="text-in-table">last modified by</td>
+                <td>
+                    <small th:text="${eachUser.lastModifiedBy}">
+                        last modified by
+                    </small>
+                </td>
 
-                <td th:text="${@dateFormatService.formatDate(eachUser.lastModifiedDate, eachUser.lastModifiedTime)}"
-                    class="text-in-table">created date
+                <td>
+                    <small th:text="${@dateFormatService.formatDate(eachUser.lastModifiedDate, eachUser.lastModifiedTime)}">
+                        created date
+                    </small>
                 </td>
 
                 <td>
@@ -85,13 +98,14 @@
     <div th:if="${countOfPages}" class="text-center mb-2 pb-1">
         <div class="users-pagination btn-group">
             <a href="/admin?pageNumber=0" class="btn pagination-btn">««</a>
-            <a href="#" class="btn pagination-btn" th:href="'/admin?pageNumber='+(${pageNumber==0}?'0':${pageNumber-1})">«</a>
+            <a href="#" class="btn pagination-btn"
+               th:href="'/admin?pageNumber='+(${pageNumber==0}?'0':${pageNumber-1})">«</a>
             <a href="#" class="btn btn-primary pagination-btn" th:text="${pageNumber+1}">1</a>
-            <a href="#" class="btn pagination-btn" th:href="'/admin?pageNumber=' + (${countOfPages==(pageNumber+1)} ? ${pageNumber} : ${pageNumber+1})">»</a>
+            <a href="#" class="btn pagination-btn"
+               th:href="'/admin?pageNumber=' + (${countOfPages==(pageNumber+1)} ? ${pageNumber} : ${pageNumber+1})">»</a>
             <a href="#" class="btn pagination-btn" th:href="'/admin?pageNumber='+${countOfPages-1}">»»</a>
         </div>
     </div>
-
 </div>
 <script th:src="@{/js/script.js}"></script>
 </body>

@@ -35,7 +35,6 @@ public class AdminController extends BaseSecurityController {
 
     @GetMapping("/admin")
     public ModelAndView showAllUsers(@RequestParam(required = false, defaultValue = "0") String pageNumber) {
-        System.out.println("/admin");
         ModelAndView modelAndView = createModelAndView("/admin/users_dashboard");
         createUsersToModelAndView(modelAndView, pageNumber);
         return modelAndView;
@@ -60,10 +59,10 @@ public class AdminController extends BaseSecurityController {
     public ModelAndView createUser(@ModelAttribute User user) {
         String error = "";
         if (userService.getByEmail(user.getEmail()) != null || userService.getUserByLogin(user.getLogin()) != null) {
-            error = "Пользователь с таким email уже существует.";
+            error = "A user with that email or login already exists.";
         }
-        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
-            error = "Пустое поле Email или Пароль";
+        if (user.getEmail().isEmpty() || user.getPassword().isEmpty() || user.getLogin().isEmpty()) {
+            error = "Empty Email, Login or Password field.";
         }
         if (error.isEmpty()) {
             userService.addNewUser(user);
