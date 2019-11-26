@@ -11,12 +11,12 @@
 
 <!--Top menu-->
 <div th:replace="fragments/menu.html :: top-menu"/>
-<div th:replace="fragments/sign-in.html :: sign-in-modal"/>
+<div th:replace="fragments/create-user.html :: create-user-modal"/>
 
 <div class="index_info container-flurry mt-3 mr-3 ml-3">
     <div class="container-flurry ml-4 mr-4">
         <p class="users-text mt-3">Users</p>
-        <a href="/admin/user/add" class="btn btn-info float-right mt-4">
+        <a href="#" class="btn btn-info float-right mt-4" data-toggle="modal" data-target="#createUserModal" id="createUserBtn">
             <i class="fas fa-user-plus"></i>
             Create a new user</a>
 

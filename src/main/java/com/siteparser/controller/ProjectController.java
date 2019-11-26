@@ -64,13 +64,11 @@ public class ProjectController extends BaseSecurityController {
     @GetMapping("/project/changeParsingState")
     public String changeParsingState(@RequestParam(name = "projectId", required = true) long projectId,
                                      @RequestParam(name = "parsingStatus", required = true) boolean parsingStatus) {
-
         if (projectService.exist(projectId)) {
             Project project = projectService.getById(projectId);
             project.setParsingStatus(!parsingStatus);
             projectService.saveProject(project);
         }
-
         return "redirect:/projects";
     }
 
@@ -81,11 +79,6 @@ public class ProjectController extends BaseSecurityController {
         }
         return "redirect:/projects";
     }
-
-//    @GetMapping("/project/create")
-//    public ModelAndView createProject() {
-//        return createModelAndView("/project/create");
-//    }
 
     @PostMapping("/project/add")
     public String addProject(@ModelAttribute Project project) {

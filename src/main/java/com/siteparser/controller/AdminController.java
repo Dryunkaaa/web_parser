@@ -35,15 +35,9 @@ public class AdminController extends BaseSecurityController {
 
     @GetMapping("/admin")
     public ModelAndView showAllUsers(@RequestParam(required = false, defaultValue = "0") String pageNumber) {
+        System.out.println("/admin");
         ModelAndView modelAndView = createModelAndView("/admin/users_dashboard");
-        int pNumber = Integer.parseInt(pageNumber);
-        List<User> usersForView = userService.getUsersWithOffset(pNumber * COUNT_OF_RECORDS, COUNT_OF_RECORDS);
-        long totalUsersCount = userService.getAll().size();
-        long countOfPages = totalUsersCount/ COUNT_OF_RECORDS;
-        if (totalUsersCount % COUNT_OF_RECORDS != 0) countOfPages++;
-        modelAndView.addObject("users", usersForView);
-        modelAndView.addObject("countOfPages", countOfPages);
-        modelAndView.addObject("pageNumber", pNumber);
+        createUsersToModelAndView(modelAndView, pageNumber);
         return modelAndView;
     }
 
@@ -62,16 +56,10 @@ public class AdminController extends BaseSecurityController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/user/add")
-    public ModelAndView addUser() {
-        return createModelAndView("/admin/user_add");
-    }
-
     @PostMapping("/admin/user/create")
     public ModelAndView createUser(@ModelAttribute User user) {
-        ModelAndView modelAndView = createModelAndView("/admin/user_add");
         String error = "";
-        if (userService.getByEmail(user.getEmail()) != null) {
+        if (userService.getByEmail(user.getEmail()) != null || userService.getUserByLogin(user.getLogin()) != null) {
             error = "Пользователь с таким email уже существует.";
         }
         if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
@@ -81,7 +69,9 @@ public class AdminController extends BaseSecurityController {
             userService.addNewUser(user);
             return new ModelAndView("redirect:/admin");
         }
-        modelAndView.addObject("error", error);
+        ModelAndView modelAndView = createModelAndView("/admin/users_dashboard");
+        modelAndView = createUsersToModelAndView(modelAndView, "0");
+        modelAndView.addObject("creationUserError", error);
         return modelAndView;
     }
 
@@ -123,8 +113,19 @@ public class AdminController extends BaseSecurityController {
         if (value.trim().length() == 0) {
             return false;
         }
-
         return true;
+    }
+
+    private ModelAndView createUsersToModelAndView(ModelAndView modelAndView, String pageNumber){
+        int pNumber = Integer.parseInt(pageNumber);
+        List<User> usersForView = userService.getUsersWithOffset(pNumber * COUNT_OF_RECORDS, COUNT_OF_RECORDS);
+        long totalUsersCount = userService.getAll().size();
+        long countOfPages = totalUsersCount/ COUNT_OF_RECORDS;
+        if (totalUsersCount % COUNT_OF_RECORDS != 0) countOfPages++;
+        modelAndView.addObject("users", usersForView);
+        modelAndView.addObject("countOfPages", countOfPages);
+        modelAndView.addObject("pageNumber", pNumber);
+        return modelAndView;
     }
 
 }
