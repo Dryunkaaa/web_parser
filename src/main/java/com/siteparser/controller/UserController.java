@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class UserController extends BaseSecurityController{
+public class UserController extends BaseSecurityController {
 
     @Autowired
     private SecurityProcessorService securityProcessorService;
@@ -28,7 +28,7 @@ public class UserController extends BaseSecurityController{
     private UserValidateService userValidateService;
 
     @GetMapping("/user/info")
-    public ModelAndView info(){
+    public ModelAndView info() {
         ModelAndView modelAndView = createModelAndView("/user/showUserData");
         User user = getUser();
         String roles = securityProcessorService.getUserRolesAsString();
@@ -38,7 +38,7 @@ public class UserController extends BaseSecurityController{
     }
 
     @GetMapping("/user/changePassword")
-    public ModelAndView changePassword(){
+    public ModelAndView changePassword() {
         ModelAndView modelAndView = createModelAndView("/user/changePassword");
         User user = getUser();
         modelAndView.addObject("domainUser", user);
@@ -47,10 +47,10 @@ public class UserController extends BaseSecurityController{
 
     @RequestMapping("/user/acceptChangePassword")
     public ModelAndView acceptChangePassword(@RequestParam("oldPassword") String oldPassword,
-                                             @RequestParam("newPassword")String newPassword){
+                                             @RequestParam("newPassword") String newPassword) {
         User user = getUser();
         UserValidateService.ValidateResult result = userValidateService.validatePassword(user, oldPassword, newPassword);
-        if (result.equals(UserValidateService.ValidateResult.ok)){
+        if (result.equals(UserValidateService.ValidateResult.ok)) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userService.update(user);
             return new ModelAndView("redirect:/user/info");
@@ -61,7 +61,7 @@ public class UserController extends BaseSecurityController{
         return modelAndView;
     }
 
-    public User getUser(){
-      return userService.getByEmail(securityProcessorService.getCurrentUserEmail());
+    public User getUser() {
+        return userService.getByEmail(securityProcessorService.getCurrentUserEmail());
     }
 }

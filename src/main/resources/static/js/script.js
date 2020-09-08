@@ -6,7 +6,7 @@ dropButton.onclick = function myFunction() {
 };
 
 // Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (!event.target.matches('.dropButton')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
@@ -23,9 +23,8 @@ window.onclick = function(event) {
 // show successful authorization block
 const block = document.querySelector('.successful-authorization-block');
 
-function hide(){
+function hide() {
     block.style.display = "none";
 }
 
 setTimeout(hide, 3500);
-

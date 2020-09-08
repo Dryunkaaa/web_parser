@@ -15,7 +15,9 @@ public class AppReadyListener {
 
     @EventListener(ApplicationReadyEvent.class)
     public void appReady() {
-        if (userService.getByEmail("admin") == null) userService.createAdmin();
+        if (userService.getByEmail("admin@localhost") == null){
+            userService.createAdmin();
+        }
     }
 
 }

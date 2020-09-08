@@ -48,11 +48,13 @@
                 <td>
                     <a th:if="${eachUser.active==0}"
                        th:href="'/admin/user/setUserActiveStatus?email='+${eachUser.email}+'&status=1'"
-                       href="#" class="btn btn-danger"><small>Deactivated</small></a>
+                       href="#" class="btn btn-danger"><small>Deactivated</small>
+                    </a>
                     <a th:if="${eachUser.active==1}"
                        th:href="'/admin/user/setUserActiveStatus?email='+${eachUser.email}+'&status=0'"
                        th:attr="class='btn btn-success ' + (${user.username == eachUser.email}?'disabled':'')"
-                       href="#" class="btn btn-success"><small>Activated</small></a>
+                       href="#" class="btn btn-success"><small>Activated</small>
+                    </a>
                 </td>
 
                 <td>
@@ -84,11 +86,13 @@
                        class="btn btn-danger float-left"
                        th:attr="class='btn btn-danger float-left ' + (${user.username == eachUser.email}?'disabled':'')"><small>
                         <i class="fas fa-user-times"></i>
-                        Delete</small></a>
+                        Delete</small>
+                    </a>
                     <a href="#" th:href="'/admin/user/edit?email=' + ${eachUser.email}"
                        class="btn btn-primary float-right mr-2"><small>
                         <i class="fas fa-user-edit"></i>
-                        Edit</small></a>
+                        Edit</small>
+                    </a>
                 </td>
             </tr>
             </tbody>

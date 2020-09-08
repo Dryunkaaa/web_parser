@@ -22,6 +22,7 @@ public class MetadataService {
                 break;
             }
         }
+
         return description;
     }
 }

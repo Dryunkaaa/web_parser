@@ -80,11 +80,14 @@ public class ParserService {
                 String title = cleanTextService.clean(metadataService.getTitle(document));
                 String description = cleanTextService.clean(metadataService.getDescription(document));
                 String content = cleanTextService.clean(document.body().text());
+
                 firstPage.setTitle(title);
                 firstPage.setDescription(description);
                 firstPage.setContent(content);
+
                 pageService.save(firstPage);
                 List<String> extractedLinks = extractLinksService.extract(firstPage.getProject(), document);
+
                 for (String link : extractedLinks) {
                     Page page = new Page();
                     page.setUrl(link);

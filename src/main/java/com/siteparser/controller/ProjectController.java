@@ -1,17 +1,26 @@
 package com.siteparser.controller;
 
+import com.siteparser.domain.Page;
 import com.siteparser.domain.Project;
 import com.siteparser.domain.User;
+import com.siteparser.service.export.PageCsvExporter;
 import com.siteparser.service.jpa.PageService;
 import com.siteparser.service.jpa.ProjectService;
 import com.siteparser.service.jpa.UserService;
+import com.siteparser.service.search.SearchService;
 import com.siteparser.service.security.SecurityProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -23,6 +32,9 @@ public class ProjectController extends BaseSecurityController {
     private ProjectService projectService;
 
     @Autowired
+    private PageCsvExporter pageCsvExporter;
+
+    @Autowired
     private PageService pageService;
 
     @Autowired
@@ -30,6 +42,9 @@ public class ProjectController extends BaseSecurityController {
 
     @Autowired
     private SecurityProcessorService securityProcessorService;
+
+    @Autowired
+    private SearchService searchService;
 
     private User getCurrentUser() {
         String userEmail = securityProcessorService.getCurrentUserEmail();
@@ -85,5 +100,30 @@ public class ProjectController extends BaseSecurityController {
         project.setUser(getCurrentUser());
         projectService.saveProject(project);
         return "redirect:/projects";
+    }
+
+    @PostMapping("/project/export")
+    @ResponseBody
+    public byte[] exportProject(@RequestParam(value = "searchSpecification", required = false) String[] searchSpecifications,
+                                @RequestParam(value = "searchPhrases") String searchPhrases,
+                                @RequestParam("projectId") long projectId,
+                                HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        SearchService.SearchSpecification searchSpecification = SearchService.SearchSpecification.load(searchSpecifications);
+
+        Set<Page> pages = searchService.search(projectService.getById(projectId), searchSpecification, searchPhrases);
+
+        String csv = pageCsvExporter.exportPages(pages);
+
+        //Download file
+        response.setContentType("application/text; charset=UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.addHeader("Content-Disposition", "attachment; filename=\"pages.csv\"");
+
+        //creating byteArray stream, make it bufforable and passing this buffor to ZipOutputStream
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream.write(csv.getBytes(StandardCharsets.UTF_8));
+
+        return byteArrayOutputStream.toByteArray();
     }
 }
