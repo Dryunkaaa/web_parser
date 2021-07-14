@@ -41,8 +41,7 @@ public class PageController extends BaseSecurityController {
         ModelAndView modelAndView = createModelAndView("/project/page/pages");
         int pNumber = Integer.parseInt(pageNumber);
         if (projectService.exist(projectId)) {
-            Map<Long, String> content = new HashMap<>();
-            // нумерация страниц
+            Map<Long, String> pagesContent = new HashMap<>();
             Map<Long, Long> indexes = new HashMap<>();
 
             Project project = projectService.getById(projectId);
@@ -52,19 +51,22 @@ public class PageController extends BaseSecurityController {
 
             for (Page page : pages) {
                 // если контент слишком большой - урезаем его
-                content.put(page.getId(), contentFormatService.formatContent(page.getContent()));
+                pagesContent.put(page.getId(), contentFormatService.formatContent(page.getContent()));
                 // страницы отображаются для пользователя начиная не с 0, а с 1
                 indexes.put(page.getId(), index + 1);
                 index++;
             }
 
             long totalPageCountInProject = pageService.getAll(projectId).size();
+
             long pagesCount = totalPageCountInProject / COUNT_OF_PAGES;
-            // если на след странице еще хранятся данные и она не полная
-            if (totalPageCountInProject % COUNT_OF_PAGES != 0) pagesCount++;
+            if (totalPageCountInProject % COUNT_OF_PAGES != 0) {
+                pagesCount++;
+            }
+
             modelAndView.addObject("pages", pages);
             modelAndView.addObject("project", project);
-            modelAndView.addObject("content", content);
+            modelAndView.addObject("content", pagesContent);
             modelAndView.addObject("indexes", indexes);
             modelAndView.addObject("pageNumber", pNumber);
             modelAndView.addObject("pagesCount", pagesCount);
@@ -84,7 +86,7 @@ public class PageController extends BaseSecurityController {
         long index = 1;
         Map<Long, Long> indexes = new HashMap<>();
         Map<Long, String> content = new HashMap<>();
-        for (Page page : pages){
+        for (Page page : pages) {
             indexes.put(page.getId(), index);
             content.put(page.getId(), contentFormatService.formatContent(page.getContent()));
             index++;
@@ -101,5 +103,4 @@ public class PageController extends BaseSecurityController {
         modelAndView.addObject("searchInContent", specification.content);
         return modelAndView;
     }
-
 }

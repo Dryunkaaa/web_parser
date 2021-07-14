@@ -30,18 +30,17 @@ public class UserController extends BaseSecurityController {
     @GetMapping("/user/info")
     public ModelAndView info() {
         ModelAndView modelAndView = createModelAndView("/user/showUserData");
-        User user = getUser();
-        String roles = securityProcessorService.getUserRolesAsString();
-        modelAndView.addObject("domainUser", user);
-        modelAndView.addObject("roles", roles);
+        modelAndView.addObject("domainUser", getUser());
+        modelAndView.addObject("roles", securityProcessorService.getUserRolesAsString());
+
         return modelAndView;
     }
 
     @GetMapping("/user/changePassword")
     public ModelAndView changePassword() {
         ModelAndView modelAndView = createModelAndView("/user/changePassword");
-        User user = getUser();
-        modelAndView.addObject("domainUser", user);
+        modelAndView.addObject("domainUser", getUser());
+
         return modelAndView;
     }
 
@@ -50,14 +49,18 @@ public class UserController extends BaseSecurityController {
                                              @RequestParam("newPassword") String newPassword) {
         User user = getUser();
         UserValidateService.ValidateResult result = userValidateService.validatePassword(user, oldPassword, newPassword);
-        if (result.equals(UserValidateService.ValidateResult.ok)) {
+        ModelAndView modelAndView;
+        if (result.equals(UserValidateService.ValidateResult.OK)) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userService.update(user);
-            return new ModelAndView("redirect:/user/info");
+
+            modelAndView = new ModelAndView("redirect:/user/info");
+        } else {
+            modelAndView = createModelAndView("/user/changePassword");
+            modelAndView.addObject("domainUser", user);
+            modelAndView.addObject("error", result.getStringRepresentation());
         }
-        ModelAndView modelAndView = createModelAndView("/user/changePassword");
-        modelAndView.addObject("domainUser", user);
-        modelAndView.addObject("error", result.getStringRepresentation());
+
         return modelAndView;
     }
 

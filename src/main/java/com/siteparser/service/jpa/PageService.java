@@ -19,7 +19,11 @@ public class PageService {
     public Page save(Page page) {
         long projectId = page.getProject().getId();
         Page existingPage = pageRepository.findByUrl(page.getUrl(), projectId);
-        if (existingPage != null && page.getId() == 0) return page;
+
+        if (existingPage != null && page.getId() == 0) {
+            return page;
+        }
+
         pageRepository.save(page);
         return page;
     }
@@ -56,7 +60,7 @@ public class PageService {
         pageRepository.deleteAll();
     }
 
-    public void deletePageByUrl(String ulr){
+    public void deletePageByUrl(String ulr) {
         delete(findByUrl(ulr));
     }
 
@@ -65,6 +69,7 @@ public class PageService {
         for (String keyword : keywords) {
             result.addAll(pageRepository.findKeywordsInUrl(project.getId(), keyword));
         }
+
         return result;
     }
 
@@ -73,6 +78,7 @@ public class PageService {
         for (String keyword : keywords) {
             result.addAll(pageRepository.findKeywordsInTitle(project.getId(), keyword));
         }
+
         return result;
     }
 
@@ -81,6 +87,7 @@ public class PageService {
         for (String keyword : keywords) {
             result.addAll(pageRepository.findKeywordsInDescription(project.getId(), keyword));
         }
+
         return result;
     }
 
@@ -89,14 +96,15 @@ public class PageService {
         for (String keyword : keywords) {
             result.addAll(pageRepository.findKeywordsInContent(project.getId(), keyword));
         }
+
         return result;
     }
 
-    public List<Page> getPagesByProjectIdWithOffset(Project project, long count, long offset){
-        return pageRepository.getPagesByProjectIdWithOffset(project.getId(),count,offset);
+    public List<Page> getPagesByProjectIdWithOffset(Project project, long count, long offset) {
+        return pageRepository.getPagesByProjectIdWithOffset(project.getId(), count, offset);
     }
 
-    public void deleteAllByType(String type, long projectId){
+    public void deleteAllByType(String type, long projectId) {
         pageRepository.deleteAllByTypeInUrl(type, projectId);
     }
 

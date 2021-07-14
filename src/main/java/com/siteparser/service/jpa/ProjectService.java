@@ -21,27 +21,21 @@ public class ProjectService {
     public Project saveProject(Project project) {
         projectRepository.save(project);
         /*
-        * при отсутствии страниц у проекта создается страница, у которой url == домену проекта
+         * при отсутствии страниц у проекта создается страница, у которой url == домену проекта
          */
         if (project.getPages().size() == 0) {
             Page page = new Page();
             page.setUrl(project.getDomain());
             page.setProject(project);
+
             pageService.save(page);
         }
+
         return project;
     }
 
     public Project getById(long projectId) {
         return projectRepository.findById(projectId).get();
-    }
-
-    public List<Project> getAllByDomain(String domain) {
-        return projectRepository.findAllByDomain(domain);
-    }
-
-    public Project getByDomain(String domain) {
-        return projectRepository.findByDomain(domain);
     }
 
     public List<Project> getAllWithEnabledParsing() {
@@ -50,14 +44,6 @@ public class ProjectService {
 
     public void delete(Project project) {
         projectRepository.delete(project);
-    }
-
-    public void clean() {
-        projectRepository.deleteAll();
-    }
-
-    public boolean existById(long projectId) {
-        return projectRepository.existsById(projectId);
     }
 
     public List<Project> getAll(User user) {

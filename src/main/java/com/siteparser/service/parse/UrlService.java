@@ -6,11 +6,25 @@ import org.springframework.stereotype.Service;
 public class UrlService {
 
     public String normalize(String url) {
-        String urlParts[] = url.split("\\?");
-        url = urlParts[0];
-        String hashParts[] = url.split("#");
-        url = hashParts[0];
-        if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
+        url = removeUrlParams(url);
+        url = removeHashParts(url);
+
+        return removeLastSlashIfContains(url);
+    }
+
+    private String removeUrlParams(String url) {
+        return url.split("\\?")[0];
+    }
+
+    private String removeHashParts(String url) {
+        return url.split("#")[0];
+    }
+
+    private String removeLastSlashIfContains(String url) {
+        if (url.endsWith("/")) {
+            return url.substring(0, url.length() - 1);
+        }
+
         return url;
     }
 }

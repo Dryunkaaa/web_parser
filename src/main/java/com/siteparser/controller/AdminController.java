@@ -36,7 +36,8 @@ public class AdminController extends BaseSecurityController {
     @GetMapping("/admin")
     public ModelAndView showAllUsers(@RequestParam(required = false, defaultValue = "0") String pageNumber) {
         ModelAndView modelAndView = createModelAndView("/admin/users_dashboard");
-        createUsersToModelAndView(modelAndView, pageNumber);
+        fillViewWithUsersForPage(modelAndView, pageNumber);
+
         return modelAndView;
     }
 
@@ -45,6 +46,7 @@ public class AdminController extends BaseSecurityController {
         User user = userService.getByEmail(email);
         user.setActive(status);
         userService.update(user);
+
         return "redirect:/admin";
     }
 
@@ -52,6 +54,7 @@ public class AdminController extends BaseSecurityController {
     public String deleteUser(@RequestParam String email) {
         User user = userService.getByEmail(email);
         userService.delete(user);
+
         return "redirect:/admin";
     }
 
@@ -69,17 +72,20 @@ public class AdminController extends BaseSecurityController {
             return new ModelAndView("redirect:/admin");
         }
         ModelAndView modelAndView = createModelAndView("/admin/users_dashboard");
-        modelAndView = createUsersToModelAndView(modelAndView, "0");
+        fillViewWithUsersForPage(modelAndView, "0");
         modelAndView.addObject("creationUserError", error);
+
         return modelAndView;
     }
 
     @GetMapping("/admin/user/edit")
     public ModelAndView userEdit(@RequestParam("email") String email) {
-        ModelAndView modelAndView = createModelAndView("/admin/user_edit");
         User user = userService.getByEmail(email);
+
+        ModelAndView modelAndView = createModelAndView("/admin/user_edit");
         modelAndView.addObject("domainUser", user);
         modelAndView.addObject("allRoles", roleService.getAll());
+
         return modelAndView;
     }
 
@@ -91,17 +97,30 @@ public class AdminController extends BaseSecurityController {
                              @RequestParam(value = "roles", required = true) String[] roles) {
         User user = userService.getByEmail(userEmail);
         if (user != null) {
-            if (checkField(email)) user.setEmail(email);
-            if (checkField(login)) user.setLogin(login);
-            if (checkField(password)) user.setPassword(passwordEncoder.encode(password));
-            user.getRoles().clear();
-            for (String roleName:roles){
-                Role role = roleService.getRoleByName(roleName);
-                user.getRoles().add(role);
+            if (checkField(email)) {
+                user.setEmail(email);
             }
+            if (checkField(login)) {
+                user.setLogin(login);
+            }
+            if (checkField(password)) {
+                user.setPassword(passwordEncoder.encode(password));
+            }
+
+            reinitUserRoles(roles, user);
             userService.update(user);
         }
+
         return "redirect:/admin";
+    }
+
+    private void reinitUserRoles(@RequestParam(value = "roles", required = true) String[] roles, User user) {
+        user.getRoles().clear();
+
+        for (String roleName : roles) {
+            Role role = roleService.getRoleByName(roleName);
+            user.getRoles().add(role);
+        }
     }
 
     private boolean checkField(String value) {
@@ -115,16 +134,18 @@ public class AdminController extends BaseSecurityController {
         return true;
     }
 
-    private ModelAndView createUsersToModelAndView(ModelAndView modelAndView, String pageNumber){
+    private void fillViewWithUsersForPage(ModelAndView modelAndView, String pageNumber) {
         int pNumber = Integer.parseInt(pageNumber);
         List<User> usersForView = userService.getUsersWithOffset(pNumber * COUNT_OF_RECORDS, COUNT_OF_RECORDS);
         long totalUsersCount = userService.getAll().size();
-        long countOfPages = totalUsersCount/ COUNT_OF_RECORDS;
-        if (totalUsersCount % COUNT_OF_RECORDS != 0) countOfPages++;
+
+        long countOfPages = totalUsersCount / COUNT_OF_RECORDS;
+        if (totalUsersCount % COUNT_OF_RECORDS != 0) {
+            countOfPages++;
+        }
+
         modelAndView.addObject("users", usersForView);
         modelAndView.addObject("countOfPages", countOfPages);
         modelAndView.addObject("pageNumber", pNumber);
-        return modelAndView;
     }
-
 }

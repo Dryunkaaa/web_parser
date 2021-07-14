@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class UserSecurityController extends BaseSecurityController{
+public class UserSecurityController extends BaseSecurityController {
 
     @Autowired
     private UserService userService;
@@ -19,15 +19,18 @@ public class UserSecurityController extends BaseSecurityController{
     private UserValidateService userValidateService;
 
     @PostMapping("/register")
-    public ModelAndView register(@ModelAttribute User user){
+    public ModelAndView register(@ModelAttribute User user) {
+        ModelAndView modelAndView;
         UserValidateService.ValidateResult result = userValidateService.validate(user);
-        if (result.equals(UserValidateService.ValidateResult.ok)){
+
+        if (result.equals(UserValidateService.ValidateResult.OK)) {
             userService.addNewUser(user);
-            return new ModelAndView("redirect:/?login");
-        }else{
-            ModelAndView modelAndView = createModelAndView("index");
+            modelAndView = new ModelAndView("redirect:/?login");
+        } else {
+            modelAndView = createModelAndView("index");
             modelAndView.addObject("registerError", result.getStringRepresentation());
-            return modelAndView;
         }
+
+        return modelAndView;
     }
 }

@@ -8,9 +8,6 @@ import com.siteparser.service.parse.CleanTextService;
 import com.siteparser.service.parse.ExtractLinksService;
 import com.siteparser.service.parse.HtmlLoadService;
 import com.siteparser.service.parse.MetadataService;
-import com.siteparser.service.parse.stats.HeadlinesLengthService;
-import com.siteparser.service.parse.stats.ParagraphLengthService;
-import com.siteparser.service.search.SearchService;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,12 +26,6 @@ public class ParserService {
     private MetadataService metadataService;
 
     @Autowired
-    private HeadlinesLengthService headlinesLengthService;
-
-    @Autowired
-    private ParagraphLengthService paragraphLengthService;
-
-    @Autowired
     private CleanTextService cleanTextService;
 
     @Autowired
@@ -46,17 +37,13 @@ public class ParserService {
     @Autowired
     private ExtractLinksService extractLinksService;
 
-    @Autowired
-    private SearchService searchService;
-
     @Scheduled(fixedDelay = 1000)
     public void parse() {
-        List<Project> projectsToParse = projectService.getAllWithEnabledParsing();
-        for (Project project : projectsToParse) {
+        for (Project project : projectService.getAllWithEnabledParsing()) {
             if (pageService.hasUnparsedProjectPages(project)) {
                 parseProject(project);
                 break;
-            }else{
+            } else {
                 project.setParsingStatus(false);
                 projectService.saveProject(project);
             }
@@ -64,39 +51,47 @@ public class ParserService {
     }
 
     private void parseProject(Project project) {
-        List<Page> pagesToParse = pageService.getUnparsedProjectPages(project);
         projectService.saveProject(project);
+
+        List<Page> pagesToParse = pageService.getUnparsedProjectPages(project);
         Page firstPage = pagesToParse.get(0);
         parsePage(firstPage, project);
     }
 
-
-    private void parsePage(Page firstPage, Project project) {
-        String url = firstPage.getUrl();
+    private void parsePage(Page page, Project project) {
         Document document = null;
         try {
-            document = htmlLoadService.loadDocument(url, project);
+            document = htmlLoadService.loadDocument(page.getUrl(), project);
+
             if (document != null) {
-                String title = cleanTextService.clean(metadataService.getTitle(document));
-                String description = cleanTextService.clean(metadataService.getDescription(document));
-                String content = cleanTextService.clean(document.body().text());
+                fillPageWithInfo(page, document);
+                pageService.save(page);
 
-                firstPage.setTitle(title);
-                firstPage.setDescription(description);
-                firstPage.setContent(content);
-
-                pageService.save(firstPage);
-                List<String> extractedLinks = extractLinksService.extract(firstPage.getProject(), document);
-
-                for (String link : extractedLinks) {
-                    Page page = new Page();
-                    page.setUrl(link);
-                    page.setProject(firstPage.getProject());
-                    pageService.save(page);
-                }
+                List<String> extractedLinks = extractLinksService.extractAnotherSiteLinks(page.getProject(), document);
+                saveLinks(extractedLinks, page.getProject());
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void fillPageWithInfo(Page page, Document doc) {
+        String title = cleanTextService.clean(metadataService.getTitle(doc));
+        String description = cleanTextService.clean(metadataService.getDescription(doc));
+        String content = cleanTextService.clean(doc.body().text());
+
+        page.setTitle(title);
+        page.setDescription(description);
+        page.setContent(content);
+    }
+
+    private void saveLinks(List<String> extractedLinks, Project project) {
+        for (String link : extractedLinks) {
+            Page newPage = new Page();
+            newPage.setUrl(link);
+            newPage.setProject(project);
+
+            pageService.save(newPage);
         }
     }
 }

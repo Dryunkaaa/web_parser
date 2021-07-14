@@ -19,30 +19,22 @@ public class HtmlLoadService {
 
     public Document loadDocument(String url, Project project) throws IOException {
         Document document = null;
-        try{
+        try {
             document = Jsoup.connect(url).get();
-        }catch (HttpStatusException ep){
-            if (ep.getStatusCode() == 404){
+        } catch (HttpStatusException ep) {
+            if (ep.getStatusCode() == 404) {
                 pageService.deletePageByUrl(url);
             }
-        }catch (org.jsoup.UnsupportedMimeTypeException umte){ // если невозможно получить док(.pdf, .mp3)
-            // получаем тип из url
-            String[] parts = url.split("\\.");
-            String type = parts[parts.length-1];
+        } catch (org.jsoup.UnsupportedMimeTypeException umte) { // если невозможно получить док(.pdf, .mp3)
             Page page = pageService.findByUrl(url, project.getId());
-            pageService.deleteAllByType(type,page.getProject().getId());
+            pageService.deleteAllByType(getUrlType(url), page.getProject().getId());
         }
+
         return document;
     }
 
-//    public String loadHtml(String url){
-//        String result = null;
-//        try {
-//            result = loadDocument(url).html();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
-
+    private String getUrlType(String url) {
+        String[] parts = url.split("\\.");
+        return parts[parts.length - 1];
+    }
 }

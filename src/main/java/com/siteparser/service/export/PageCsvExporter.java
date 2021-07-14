@@ -10,14 +10,12 @@ import java.util.StringJoiner;
 public class PageCsvExporter {
 
     public String exportPages(Collection<Page> pages) {
-
         StringBuilder result = new StringBuilder();
 
-        //Add header
         result.append(makeCsvLine("№", "URL", "Title", "Description", "Content"));
 
         int index = 0;
-        for(Page page: pages) {
+        for (Page page : pages) {
             result.append("\n");
             String line = makeCsvLine(++index, page.getUrl(), page.getTitle(), page.getDescription(), page.getContent());
             result.append(line);

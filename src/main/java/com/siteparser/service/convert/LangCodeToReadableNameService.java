@@ -17,7 +17,10 @@ public class LangCodeToReadableNameService {
     }
 
     public String getReadableName(String lang) {
-        if (languages.containsKey(lang)) return languages.get(lang);
+        if (languages.containsKey(lang)) {
+            return languages.get(lang);
+        }
+
         return lang;
     }
 }

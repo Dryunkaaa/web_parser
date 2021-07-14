@@ -10,11 +10,12 @@ public class HeadlinesLengthService {
             "h1", "h2", "h3", "h4", "h5", "h6"
     };
 
-    public int getHeadlinesLength(Document document) {
+    public int getHeadlinesAmount(Document document) {
         int length = 0;
-        for (String head : HEAD_TAGS){
-            length+=document.select(head).size();
+        for (String head : HEAD_TAGS) {
+            length += document.select(head).size();
         }
+
         return length;
     }
 }

@@ -11,5 +11,4 @@ public class SiteparserApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SiteparserApplication.class, args);
 	}
-
 }

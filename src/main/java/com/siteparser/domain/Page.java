@@ -10,7 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @EqualsAndHashCode(exclude = {"title", "content", "description"})
-@Setter @Getter
+@Setter
+@Getter
 @ToString
 public class Page {
 
@@ -37,5 +38,4 @@ public class Page {
     @JoinColumn(name = "project_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Project project;
-
 }

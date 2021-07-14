@@ -22,7 +22,7 @@ public class SearchService {
         public boolean title = true;
         public boolean description = true;
 
-        public void reset(){
+        public void reset() {
             url = false;
             content = false;
             title = false;
@@ -32,30 +32,49 @@ public class SearchService {
         public static SearchSpecification load(String[] values) {
             SearchSpecification searchSpecification = new SearchSpecification();
             searchSpecification.reset();
-            if (values == null) return searchSpecification;
-            for (String value : values){
-                if (value.equals("title")) searchSpecification.title = true;
-                else if (value.equals("description")) searchSpecification.description = true;
-                else if (value.equals("url")) searchSpecification.url = true;
-                else if(value.equals("content")) searchSpecification.content = true;
+
+            if (values != null) {
+                return initSearchSpecification(values, searchSpecification);
             }
+
+            return searchSpecification;
+        }
+
+        private static SearchSpecification initSearchSpecification(String[] values, SearchSpecification searchSpecification) {
+            for (String value : values) {
+                if (value.equals("title")) {
+                    searchSpecification.title = true;
+                } else if (value.equals("description")) {
+                    searchSpecification.description = true;
+                } else if (value.equals("url")) {
+                    searchSpecification.url = true;
+                } else if (value.equals("content")) {
+                    searchSpecification.content = true;
+                }
+            }
+
             return searchSpecification;
         }
     }
 
-    public Set<Page> search(Project project, String ... keywords){
-        return search(project, SearchSpecification.ALL, keywords);
-    }
-
     public Set<Page> search(Project project, SearchSpecification searchSpecification, String... keywords) {
         Set<Page> result = new HashSet<>();
-        if (searchSpecification.url) result.addAll(pageService.findByKeywordsInUrl(project, keywords));
 
-        if (searchSpecification.title) result.addAll(pageService.findByKeywordsInTitle(project, keywords));
+        if (searchSpecification.url) {
+            result.addAll(pageService.findByKeywordsInUrl(project, keywords));
+        }
 
-        if (searchSpecification.description) result.addAll(pageService.findByKeywordsInDescription(project, keywords));
+        if (searchSpecification.title) {
+            result.addAll(pageService.findByKeywordsInTitle(project, keywords));
+        }
 
-        if (searchSpecification.content) result.addAll(pageService.findByKeywordsInContent(project, keywords));
+        if (searchSpecification.description) {
+            result.addAll(pageService.findByKeywordsInDescription(project, keywords));
+        }
+
+        if (searchSpecification.content) {
+            result.addAll(pageService.findByKeywordsInContent(project, keywords));
+        }
 
         return result;
     }

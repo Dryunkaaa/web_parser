@@ -29,12 +29,12 @@ public class User {
     private String password;
 
     @Column(name = "created_date")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
 
     @Column(name = "created_time")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Temporal(TemporalType.TIME)
     private Date createdTime;
 
@@ -42,12 +42,12 @@ public class User {
     private String lastModifiedBy;
 
     @Column(name = "last_modified_date")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date lastModifiedDate;
 
     @Column(name = "last_modified_time")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     @Temporal(TemporalType.TIME)
     private Date lastModifiedTime;
 
@@ -59,7 +59,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER,  mappedBy = "user", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
     private Set<Project> projects = new HashSet<>();
 
     public boolean hasRole(String roleName){

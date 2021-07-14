@@ -3,7 +3,6 @@ package com.siteparser.service.parse;
 import com.siteparser.domain.Project;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +15,18 @@ public class ExtractLinksService {
     @Autowired
     private UrlService urlService;
 
-    public List<String> extract(Project project, Document document) {
-        List<String> linksToParse = new ArrayList<>();
-        Elements links = document.select("a");
-        for (Element element : links) {
+    public List<String> extractAnotherSiteLinks(Project project, Document document) {
+        List<String> pageLinks = new ArrayList<>();
+
+        for (Element element : document.select("a")) {
             String link = element.absUrl("href");
-            boolean hasDomainName = false;
-            if (link.startsWith(project.getDomain())) hasDomainName = true;
-            if (hasDomainName) {
+
+            if (link.startsWith(project.getDomain())) {
                 link = urlService.normalize(link);
-                linksToParse.add(link);
+                pageLinks.add(link);
             }
         }
-        return linksToParse;
-    }
 
+        return pageLinks;
+    }
 }

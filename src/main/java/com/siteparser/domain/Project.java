@@ -25,14 +25,8 @@ public class Project {
     @Column(name = "parsingStatus")
     private boolean parsingStatus;
 
-    /*
-    Replacing the cascade = CascadeType.ALL by orphanRemoval = true
-    in the @OneToMany association gives the expected result:
-    The child records are correctly removed without the need to delete the parent record.
-     */
-
     @JsonIgnore
-    @OneToMany(mappedBy = "project",  fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Page> pages = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)

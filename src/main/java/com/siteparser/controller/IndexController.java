@@ -18,9 +18,8 @@ public class IndexController extends BaseSecurityController {
     public ModelAndView index() {
         ModelAndView modelAndView = createModelAndView("index");
         modelAndView.addObject("showSuccessfulAuthorization", showSuccessfulAuthorization);
-        if (securityProcessorService.getUserFromContext() == null) showSuccessfulAuthorization = true;
-        else showSuccessfulAuthorization = false;
+        showSuccessfulAuthorization = securityProcessorService.getUserFromContext() == null;
+
         return modelAndView;
     }
-
 }

@@ -6,30 +6,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 public class UserValidateService {
 
     @Autowired
     private UserService userService;
 
+    private static final Pattern EMAIL_PATTERN = initEmailPattern();
+
     public enum ValidateResult {
-        ok,
-        invalidEmail,
-        shortPassword,
-        userExists,
-        invalidPassword;
+        OK,
+        INVALID_EMAIL,
+        SHORT_PASSWORD,
+        USER_EXISTS,
+        INVALID_PASSWORD;
 
         public String getStringRepresentation() {
             switch (this) {
-                case ok:
+                case OK:
                     return "OK";
-                case invalidEmail:
+                case INVALID_EMAIL:
                     return "Incorrect email.";
-                case shortPassword:
+                case SHORT_PASSWORD:
                     return "Password is short! Password must be more than 5 characters.";
-                case userExists:
+                case USER_EXISTS:
                     return "A user with this email or login already exists.";
-                case invalidPassword:
+                case INVALID_PASSWORD:
                     return "Incorrect password.";
                 default:
                     return "";
@@ -39,24 +44,42 @@ public class UserValidateService {
 
     public ValidateResult validate(User user) {
         if (userService.getByEmail(user.getEmail()) != null || userService.getUserByLogin(user.getLogin()) != null) {
-            return ValidateResult.userExists;
+            return ValidateResult.USER_EXISTS;
         }
-        if (user.getPassword().length() < 5) return ValidateResult.shortPassword;
-        if (!isValidEmailAddress(user.getEmail())) return ValidateResult.invalidEmail;
-        return ValidateResult.ok;
+
+        if (user.getPassword().length() < 5) {
+            return ValidateResult.SHORT_PASSWORD;
+        }
+        if (!isValidEmailAddress(user.getEmail())) {
+            return ValidateResult.INVALID_EMAIL;
+        }
+
+        return ValidateResult.OK;
     }
 
     public boolean isValidEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
+        Matcher m = EMAIL_PATTERN.matcher(email);
         return m.matches();
     }
 
     public ValidateResult validatePassword(User user, String oldPassword, String newPassword) {
-        if (newPassword.length() < 5) return ValidateResult.shortPassword;
-        // сравнение паролей
-        if (!BCrypt.checkpw(oldPassword, user.getPassword())) return ValidateResult.invalidPassword;
-        return ValidateResult.ok;
+        if (newPassword.length() < 5) {
+            return ValidateResult.SHORT_PASSWORD;
+        }
+
+        if (!passwordsEquals(oldPassword, user.getPassword())) {
+            return ValidateResult.INVALID_PASSWORD;
+        }
+
+        return ValidateResult.OK;
+    }
+
+    private boolean passwordsEquals(String firstPassword, String secondPassword) {
+        return BCrypt.checkpw(firstPassword, secondPassword);
+    }
+
+    private static Pattern initEmailPattern() {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        return Pattern.compile(ePattern);
     }
 }

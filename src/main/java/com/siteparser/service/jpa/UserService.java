@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -34,11 +33,12 @@ public class UserService {
     public void addNewUser(User user) {
         Date createdDate = new Date();
         Role userRole = roleService.getRoleByName("USER");
+
         user.getRoles().add(userRole);
-        String password = user.getPassword();
-        user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreatedDate(createdDate);
         user.setCreatedTime(createdDate);
+
         userRepository.save(user);
     }
 
@@ -51,6 +51,7 @@ public class UserService {
         user.setLastModifiedDate(modifiedDate);
         user.setLastModifiedTime(modifiedDate);
         user.setLastModifiedBy(securityProcessorService.getUserFromContext().getUsername());
+
         userRepository.save(user);
     }
 
@@ -62,8 +63,9 @@ public class UserService {
         final String adminEmail = "admin@localhost";
         final String adminLogin = "admin";
         final Date createdDate = new Date();
-        if (roleService.getRoleByName("USER") == null) roleService.createRole("USER");
-        if (roleService.getRoleByName("ADMIN") == null) roleService.createRole("ADMIN");
+
+        createAdminAndUserRoleIfNotExist();
+
         User admin = new User();
         admin.setLogin(adminLogin);
         admin.setEmail(adminEmail);
@@ -72,18 +74,25 @@ public class UserService {
         admin.setCreatedTime(createdDate);
         admin.getRoles().add(roleService.getRoleByName("USER"));
         admin.getRoles().add(roleService.getRoleByName("ADMIN"));
+
         userRepository.save(admin);
     }
 
-    public void save(User user){
-        userRepository.save(user);
+    private void createAdminAndUserRoleIfNotExist() {
+        if (roleService.getRoleByName("USER") == null) {
+            roleService.createRole("USER");
+        }
+
+        if (roleService.getRoleByName("ADMIN") == null) {
+            roleService.createRole("ADMIN");
+        }
     }
 
-    public User getUserByLogin(String login){
+    public User getUserByLogin(String login) {
         return userRepository.findByLogin(login);
     }
 
-    public List<User> getUsersWithOffset(long offset, long count){
+    public List<User> getUsersWithOffset(long offset, long count) {
         return userRepository.getUsersWithOffset(offset, count);
     }
 }

@@ -17,14 +17,15 @@ public class RoleService {
         return roleRepository.findByName(name);
     }
 
-    public List<Role> getAll(){
+    public List<Role> getAll() {
         return roleRepository.findAll();
     }
 
     public void createRole(String roleName) {
-        if (roleName != null && roleName != "") {
+        if (roleName != null && !roleName.equals("")) {
             Role role = new Role();
             role.setRole(roleName);
+
             roleRepository.save(role);
         }
     }
